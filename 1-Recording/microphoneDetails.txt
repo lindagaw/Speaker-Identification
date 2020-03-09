@@ -1,4 +1,4 @@
-nChannels: 1
+nChannels: 2
 nSamplesPerSec: 48000
 wBitsPerSample: 32
-MixFrameSize:4
+MixFrameSize:8
