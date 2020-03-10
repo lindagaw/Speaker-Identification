@@ -30,7 +30,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
 RECORD_SECONDS = 5
-location = '1-Recording//Recording_samples//'
+
 
 class Root(tk.Tk):
     """Container for all frames within the application"""
@@ -101,75 +101,138 @@ class Application(ttk.Notebook):
         self.add(tab4, text = "Test the Model")
 
         voice_record_button(tab1, 'caregiver')
+        voice_record_button(tab2, 'patient')
 
+        train_sid_button(tab3)
+
+        try:
+            os.mkdir('2-Training//singles//0-nonFamily//')
+        except:
+            shutil.rmtree('2-Training//singles//0-nonFamily//')
+            os.mkdir('2-Training//singles//0-nonFamily//')
+
+def train_sid_button(tab):
+    # the overview label
+    overview_label = ttk.Label(tab, text="Here we train the speaker identification model.", font=("Times New Roman", 11))
+    overview_label.pack()
+
+    # the checklist label
+    checklist_label = ttk.Label(tab, text="Please check the following items.", font=("Times New Roman", 11))
+    checklist_label.pack()
+
+    # caregiver's voice
+    caregiver_label = ttk.Label(tab, text="Is the caregiver's voice collected?", font=("Times New Roman", 11))
+    caregiver_label.pack()
+
+    MODES = [("Yes", 1), ("No", 0)]
+
+    caregiver_var = tk.IntVar()
+    caregiver_var.set(0) # initialize
+    for text, mode in MODES:
+        caregiver_button = ttk.Radiobutton(tab, text=text, variable=caregiver_var, value=mode)
+        caregiver_button.pack(anchor='w')
+
+    # patient's voice
+    patient_label = ttk.Label(tab, text="Is the patient's voice collected?", font=("Times New Roman", 11))
+    patient_label.pack()
+
+    MODES = [("Yes", 1), ("No", 0)]
+
+    patient_var = tk.IntVar()
+    patient_var.set(0) # initialize
+    for text, mode in MODES:
+        patient_button = ttk.Radiobutton(tab, text=text, variable=patient_var, value=mode)
+        patient_button.pack(anchor='w')
+
+
+    def train():
+        if voice_record_button['text'] == 'Start Training' or  voice_record_button['text'] == 'Restart Training':
+            subprocess.Popen([r"cmd"])
+            subprocess.Popen([r"C://Users//Ash Gao//Documents//GitHub//Speaker-Identification//2-Training//M2FEDTraining.exe"])
+            voice_record_button['text'] = 'Restart Training'
+        else:
+            pass
+            
+    voice_record_button = tk.Button(tab, text='Start Training', width=25, command=train)
+    voice_record_button.pack()
 
 def voice_record_button(tab1, role):
-        # the overview label
-        overview_label = ttk.Label(tab1, text="Here we collect the " + str(role) + "'s voice.", font=("Times New Roman", 11))
-        overview_label.pack(side='top')
+    # the overview label
+    overview_label = ttk.Label(tab1, text="Here we collect the " + str(role) + "'s voice.", font=("Times New Roman", 11))
+    overview_label.pack()
 
-        # the checklist label
-        checklist_label = ttk.Label(tab1, text="Please check the following items.", font=("Times New Roman", 11))
-        checklist_label.pack(side='top')
+    # the checklist label
+    checklist_label = ttk.Label(tab1, text="Please check the following items.", font=("Times New Roman", 11))
+    checklist_label.pack()
 
-        # only caregiver in the room label
-        only_caregiver_label = ttk.Label(tab1, text="Is the " + str(role) + " the only person in the room, except the voice collector?", font=("Times New Roman", 11))
-        only_caregiver_label.pack()
+    # only caregiver in the room label
+    only_caregiver_label = ttk.Label(tab1, text="Is the " + str(role) + " the only person in the room, except the voice collector?", font=("Times New Roman", 11))
+    only_caregiver_label.pack()
 
-        MODES = [("Yes", 1), ("No", 0)]
+    MODES = [("Yes", 1), ("No", 0)]
 
-        only_caregiver_var = tk.IntVar()
-        only_caregiver_var.set(0) # initialize
-        for text, mode in MODES:
-            only_caregiver_button = ttk.Radiobutton(tab1, text=text, variable=only_caregiver_var, value=mode)
-            only_caregiver_button.pack(anchor='w')
+    only_caregiver_var = tk.IntVar()
+    only_caregiver_var.set(0) # initialize
+    for text, mode in MODES:
+        only_caregiver_button = ttk.Radiobutton(tab1, text=text, variable=only_caregiver_var, value=mode)
+        only_caregiver_button.pack(anchor='w')
 
-        # caregiver informed label
-        caregiver_informed_label = ttk.Label(tab1, text="Is the " + str(role) + " aware that they need to talk in their natural voice for 5 minutes?", font=("Times New Roman", 11))
-        caregiver_informed_label.pack()
+    # caregiver informed label
+    caregiver_informed_label = ttk.Label(tab1, text="Is the " + str(role) + " aware that they need to talk in their natural voice for 5 minutes?", font=("Times New Roman", 11))
+    caregiver_informed_label.pack()
 
-        MODES = [("Yes", 1), ("No", 0)]
+    MODES = [("Yes", 1), ("No", 0)]
 
-        caregiver_informed_var = tk.IntVar()
-        caregiver_informed_var.set(0) # initialize
-        for text, mode in MODES:
-            caregiver_informed_button = ttk.Radiobutton(tab1, text=text, variable=caregiver_informed_var, value=mode)
-            caregiver_informed_button.pack(anchor='w')
+    caregiver_informed_var = tk.IntVar()
+    caregiver_informed_var.set(0) # initialize
+    for text, mode in MODES:
+        caregiver_informed_button = ttk.Radiobutton(tab1, text=text, variable=caregiver_informed_var, value=mode)
+        caregiver_informed_button.pack(anchor='w')
 
-        # record voice label
-        record_voice_label = ttk.Label(tab1, text="If ready, you can start recording the " + str(role) + "'s voice.", font=("Times New Roman", 11))
-        record_voice_label.pack()
+    # record voice label
+    record_voice_label = ttk.Label(tab1, text="If ready, you can start recording the " + str(role) + "'s voice.", font=("Times New Roman", 11))
+    record_voice_label.pack()
 
-        
-        elapsed_time_label = tk.Label(tab1, fg="dark green", font=("Times New Roman", 20))
-        elapsed_time_label.pack()
+    
+    elapsed_time_label = tk.Label(tab1, fg="dark green", font=("Times New Roman", 20))
+    elapsed_time_label.pack()
 
-        def countdown(count):
-            # change text in label       
-            display = convert(count) 
-            elapsed_time_label['text'] = 'Remaining time: ' + str(display)
+    if role == 'caregiver':
+        location = '2-Training//singles//1-caregiver//'
+    else:
+        location = '2-Training//singles//2-patient//'
 
-            if count > 0:
-                # call countdown again after 1000ms (1s)
-                root.after(1000, countdown, count-1)
-            if count <= 0:
-                elapsed_time_label['text'] = 'Recording finished'
-        
+    try:
+        os.mkdir(location)
+    except:
+        shutil.rmtree(location)
+        os.mkdir(location)
 
-        def voice_record():
-            if voice_record_button['text'] == 'Start Recording':
-                x = threading.Thread(target=countdown, args=(RECORD_SECONDS,))
-                y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
-                            RECORD_SECONDS, role, location))
+    def countdown(count):
+        # change text in label       
+        display = convert(count) 
+        elapsed_time_label['text'] = 'Remaining time: ' + str(display)
 
-                x.start()
-                y.start()
-            else:
-                pass
-                
-        voice_record_button = tk.Button(tab1, text='Start Recording', width=25, command=voice_record)
-        voice_record_button.pack()
+        if count > 0:
+            # call countdown again after 1000ms (1s)
+            root.after(1000, countdown, count-1)
+        if count <= 0:
+            elapsed_time_label['text'] = 'Recording finished'
+    
 
+    def voice_record():
+        if voice_record_button['text'] == 'Start Recording' or  voice_record_button['text'] == 'Restart Recording':
+            x = threading.Thread(target=countdown, args=(RECORD_SECONDS,))
+            y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
+                        RECORD_SECONDS, role, location))
+            x.start()
+            y.start()
+            voice_record_button['text'] = 'Restart Recording'
+        else:
+            pass
+            
+    voice_record_button = tk.Button(tab1, text='Start Recording', width=25, command=voice_record)
+    voice_record_button.pack()
 
 def record_single_session(CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, role, location):
         p = pyaudio.PyAudio()
