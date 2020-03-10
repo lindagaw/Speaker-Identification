@@ -86,7 +86,6 @@ class StatusBar(ttk.Frame):
             
 class Application(ttk.Notebook):
 
-
     def __init__(self, root):
         ttk.Notebook.__init__(self, root)
 
@@ -104,12 +103,65 @@ class Application(ttk.Notebook):
         voice_record_button(tab2, 'patient')
 
         train_sid_button(tab3)
+        voice_record_button_for_testing(tab4)
 
         try:
             os.mkdir('2-Training//singles//0-nonFamily//')
         except:
             shutil.rmtree('2-Training//singles//0-nonFamily//')
             os.mkdir('2-Training//singles//0-nonFamily//')
+
+def voice_record_button_for_testing(tab):
+    def countdown(count, elapsed_time_label):
+        # change text in label       
+        display = convert(count) 
+        elapsed_time_label['text'] = 'Remaining time: ' + str(display)
+
+        if count > 0:
+            # call countdown again after 1000ms (1s)
+            root.after(1000, countdown, count-1)
+        if count <= 0:
+            elapsed_time_label['text'] = 'Recording finished'
+    
+
+    def voice_record(voice_record_button, free_speaking_time, elapsed_time_label, role):
+            if role == 'caregiver':
+                location = '3-Testing//singles//caregiver//'
+            else:
+                location = '3-Testing//Singles//patient//'
+
+            shutil.rmtree(location)
+            os.makedirs(location)
+
+            if voice_record_button['text'] == 'Start Recording' or voice_record_button['text'] == 'Restart Recording':
+                x = threading.Thread(target=countdown, args=(free_speaking_time, elapsed_time_label,))
+                y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
+                       free_speaking_time, role, location,))
+                x.start()
+                y.start()
+                voice_record_button['text'] = 'Restart Recording'
+            else:
+                pass
+
+    # the overview label
+    overview_label = ttk.Label(tab, text="In this tab we test if the speaker identification algorithm is successfully trained.", font=("Times New Roman", 11))
+    overview_label.pack()
+
+    # the checklist label
+    checklist_label = ttk.Label(tab, text="Please return to the previous tabs to re-collect the voices and retrain, if this attempt is unsccessful.", font=("Times New Roman", 11))
+    checklist_label.pack()
+
+    # test the caregiver's voice label
+    record_voice_label = ttk.Label(tab, text="Please let the caregiver speak", font=("Times New Roman", 11))
+    record_voice_label.pack()
+
+    caregiver_elapsed_time_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
+    caregiver_elapsed_time_label.pack()
+
+    caregiver_voice_record_button = tk.Button(tab, text='Start Recording', width=25)
+    caregiver_voice_record_button['command'] = voice_record(caregiver_voice_record_button, 10, caregiver_elapsed_time_label, 'caregiver')
+    caregiver_voice_record_button.pack()
+
 
 def train_sid_button(tab):
     # the overview label
@@ -145,16 +197,36 @@ def train_sid_button(tab):
         patient_button.pack(anchor='w')
 
 
+    training_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
+    training_label.pack()
+
+    def check(yield_time):
+        count = 0
+        while True:
+            if not os.path.exists("2-Training//models_1024.mat"):
+                count += 1
+                training_label['text'] = 'Training' + '.' * (count % 4)
+
+                time.sleep(yield_time)
+            else:
+                training_label['text'] = 'Finished'
+
     def train():
-        if voice_record_button['text'] == 'Start Training' or  voice_record_button['text'] == 'Restart Training':
+        if training_button['text'] == 'Start Training' or training_button['text'] == 'Restart Training':
             subprocess.Popen([r"cmd"])
-            subprocess.Popen([r"C://Users//Ash Gao//Documents//GitHub//Speaker-Identification//2-Training//M2FEDTraining.exe"])
-            voice_record_button['text'] = 'Restart Training'
+            subprocess.Popen([r"2-Training//M2FEDTraining.exe"])
+            training_button['text'] = 'Restart Training'
         else:
             pass
+
+    def train_and_check():
+        x = threading.Thread(target=train, args=())
+        y = threading.Thread(target=check, args=(1,))
+        x.start()
+        y.start()
             
-    voice_record_button = tk.Button(tab, text='Start Training', width=25, command=train)
-    voice_record_button.pack()
+    training_button = tk.Button(tab, text='Start Training', width=25, command=train_and_check)
+    training_button.pack()
 
 def voice_record_button(tab1, role):
     # the overview label
@@ -203,10 +275,10 @@ def voice_record_button(tab1, role):
         location = '2-Training//singles//2-patient//'
 
     try:
-        os.mkdir(location)
+        os.makedirs(location)
     except:
         shutil.rmtree(location)
-        os.mkdir(location)
+        os.makedirs(location)
 
     def countdown(count):
         # change text in label       
