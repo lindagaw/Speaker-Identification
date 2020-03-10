@@ -20,10 +20,13 @@ import time
 import contextlib
 import pyaudio
 from pydub import AudioSegment
+from pydub.playback import play
 
 import logging
 import threading
 import time
+
+import speech_recognition as sr
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -99,18 +102,107 @@ class Application(ttk.Notebook):
         self.add(tab2, text = "Collect Patient's Voice")
         self.add(tab3, text = "Train the Model")
         self.add(tab4, text = "Test the Model on Caregiver")
-        self.add(tab5, text = "Test the Model on Patients")
+        self.add(tab5, text = "Test the Model on Patient")
 
         voice_record_button(tab1, 'caregiver')
         voice_record_button(tab2, 'patient')
 
         train_sid_button(tab3)
+        test_sid_button(tab4, 'caregiver')
+        test_sid_button(tab5, 'patient')
 
         try:
             os.mkdir('2-Training//singles//0-nonFamily//')
         except:
             shutil.rmtree('2-Training//singles//0-nonFamily//')
             os.mkdir('2-Training//singles//0-nonFamily//')
+
+def test_sid_button(tab, role):
+
+    def countdown(count):
+        # change text in label       
+        display = convert(count) 
+        elapsed_time_label['text'] = 'Remaining time: ' + str(display)
+
+        if count > 0:
+            # call countdown again after 1000ms (1s)
+            root.after(1000, countdown, count-1)
+        if count <= 0:
+            elapsed_time_label['text'] = 'Recording finished'
+
+    def voice_record():
+        if voice_record_button['text'] == 'Start Recording' or  voice_record_button['text'] == 'Restart Recording':
+            x = threading.Thread(target=countdown, args=(10, ))
+            y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
+                        RECORD_SECONDS, role, location, ))
+            x.start()
+            y.start()
+            voice_record_button['text'] = 'Restart Recording'
+        else:
+            pass
+
+        print(os.listdir(location))
+
+    def play_voice():
+        filelist = os.listdir(location)
+        fname = location + filelist[0]
+        voice = AudioSegment.from_wav(fname)
+        play(voice)
+
+    # the overview label
+    overview_label = ttk.Label(tab, text="Here we test the speaker identification model.", font=("Times New Roman", 11))
+    overview_label.pack()
+
+    overview_label = ttk.Label(tab, text="Please allow the speaker to say something in their natural voice.", font=("Times New Roman", 11))
+    overview_label.pack()
+
+    elapsed_time_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
+    elapsed_time_label.pack()
+
+    location = get_location(role)
+
+    voice_record_button = tk.Button(tab, text='Start Recording', width=25, command=voice_record)
+    voice_record_button.pack()
+
+
+    listen_label = ttk.Label(tab, text="You can listen to the sample you just collected for testing purposes.", font=("Times New Roman", 11))
+    listen_label.pack()
+
+    # the checklist label
+    checklist_label = ttk.Label(tab, text="Please check the following items.", font=("Times New Roman", 11))
+    checklist_label.pack()
+
+    placeholder_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
+    placeholder_label.pack()
+
+    voice_replay_button = tk.Button(tab, text='Play Recorded Sample', width=25, command=play_voice)
+    voice_replay_button.pack()
+
+
+    # only speaker's voice in the sample
+    only_speaker_label = ttk.Label(tab, text="Is the " + str(role) + " the only person whose voice is recorded in the sample?", font=("Times New Roman", 11))
+    only_speaker_label.pack()
+
+    MODES = [("Yes", 1), ("No", 0)]
+
+    only_speaker_var = tk.IntVar()
+    only_speaker_var.set(0) # initialize
+    for text, mode in MODES:
+        only_speaker_button = ttk.Radiobutton(tab, text=text, variable=only_speaker_var, value=mode)
+        only_speaker_button.pack(anchor='w')
+
+    # full ten seconds
+    only_speaker_full_label = ttk.Label(tab, text="Did the " + str(role) + " speak incessantly, or almost incessantly, in the recorded sample?", font=("Times New Roman", 11))
+    only_speaker_full_label.pack()
+
+    MODES = [("Yes", 1), ("No", 0)]
+
+    only_speaker_full_var = tk.IntVar()
+    only_speaker_full_var.set(0) # initialize
+    for text, mode in MODES:
+        only_speaker_full_button = ttk.Radiobutton(tab, text=text, variable=only_speaker_full_var, value=mode)
+        only_speaker_full_button.pack(anchor='w')
+
 
 
 def train_sid_button(tab):
@@ -297,8 +389,9 @@ def record_single_session(CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, role, l
             print('Deleted previously generated file with the same name.')
         except:
             pass
-        os.rename(WAVE_OUTPUT_FILENAME, location + role + '.wav')
 
+        os.rename(WAVE_OUTPUT_FILENAME, location + role + '.wav')
+        print(location + role + '.wav')
         return WAVE_OUTPUT_FILENAME
 
 def replace_special_chars(z, special_chars, new_char):
@@ -314,7 +407,56 @@ def convert(seconds):
       
     return "%d:%02d:%02d" % (hour, minutes, seconds) 
 
+def get_location(role):
+    if role == 'caregiver':
+        location = '3-Testing//singles//1-caregiver//'
+    else:
+        location = '3-Testing//singles//2-patient//'
+
+    try:
+        os.makedirs(location)
+    except:
+        shutil.rmtree(location)
+        os.makedirs(location)
+
+    return location
+
+'''
+def sid(role):
+    eng = matlab.engine.start_matlab()
+    location = get_location(role)
+    fname = location + role + '.wav'
+    print('speaker identification is initialized...')
+    sid = eng.PCR_main(fname)
+
+    return sid
+
+def voice_activity_detection(location):
+    r = sr.Recognizer()
+
+    while True:
+
+        if len(os.listdir(location)) == 0:
+            continue
+    
+        for filename in os.listdir(location):
+            try:
+                with sr.AudioFile(location + filename) as source:
+                    audio = r.record(source)
+            except:
+                continue
+
+            try:
+                transcription = r.recognize_google(audio)
+                print(location + filename + ' is speech.')
+                print(transcription)
+
+            except: # intelligible
+                os.remove(location + filename)
+
+'''
 root = Root()
+root.iconbitmap('icon.ico')
 root.title("Speaker Identification")
 root.geometry("800x500+200+200")
 root.mainloop()
