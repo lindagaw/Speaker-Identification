@@ -93,74 +93,24 @@ class Application(ttk.Notebook):
         tab2 = ttk.Frame(self)
         tab3 = ttk.Frame(self)
         tab4 = ttk.Frame(self)
-        
-        self.add(tab1, text = "Caregiver's Voice")
-        self.add(tab2, text = "Patient's Voice")
+        tab5 = ttk.Frame(self)
+
+        self.add(tab1, text = "Collect Caregiver's Voice")
+        self.add(tab2, text = "Collect Patient's Voice")
         self.add(tab3, text = "Train the Model")
-        self.add(tab4, text = "Test the Model")
+        self.add(tab4, text = "Test the Model on Caregiver")
+        self.add(tab5, text = "Test the Model on Patients")
 
         voice_record_button(tab1, 'caregiver')
         voice_record_button(tab2, 'patient')
 
         train_sid_button(tab3)
-        voice_record_button_for_testing(tab4)
 
         try:
             os.mkdir('2-Training//singles//0-nonFamily//')
         except:
             shutil.rmtree('2-Training//singles//0-nonFamily//')
             os.mkdir('2-Training//singles//0-nonFamily//')
-
-def voice_record_button_for_testing(tab):
-    def countdown(count, elapsed_time_label):
-        # change text in label       
-        display = convert(count) 
-        elapsed_time_label['text'] = 'Remaining time: ' + str(display)
-
-        if count > 0:
-            # call countdown again after 1000ms (1s)
-            root.after(1000, countdown, count-1)
-        if count <= 0:
-            elapsed_time_label['text'] = 'Recording finished'
-    
-
-    def voice_record(voice_record_button, free_speaking_time, elapsed_time_label, role):
-            if role == 'caregiver':
-                location = '3-Testing//singles//caregiver//'
-            else:
-                location = '3-Testing//Singles//patient//'
-
-            shutil.rmtree(location)
-            os.makedirs(location)
-
-            if voice_record_button['text'] == 'Start Recording' or voice_record_button['text'] == 'Restart Recording':
-                x = threading.Thread(target=countdown, args=(free_speaking_time, elapsed_time_label,))
-                y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
-                       free_speaking_time, role, location,))
-                x.start()
-                y.start()
-                voice_record_button['text'] = 'Restart Recording'
-            else:
-                pass
-
-    # the overview label
-    overview_label = ttk.Label(tab, text="In this tab we test if the speaker identification algorithm is successfully trained.", font=("Times New Roman", 11))
-    overview_label.pack()
-
-    # the checklist label
-    checklist_label = ttk.Label(tab, text="Please return to the previous tabs to re-collect the voices and retrain, if this attempt is unsccessful.", font=("Times New Roman", 11))
-    checklist_label.pack()
-
-    # test the caregiver's voice label
-    record_voice_label = ttk.Label(tab, text="Please let the caregiver speak", font=("Times New Roman", 11))
-    record_voice_label.pack()
-
-    caregiver_elapsed_time_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
-    caregiver_elapsed_time_label.pack()
-
-    caregiver_voice_record_button = tk.Button(tab, text='Start Recording', width=25)
-    caregiver_voice_record_button['command'] = voice_record(caregiver_voice_record_button, 10, caregiver_elapsed_time_label, 'caregiver')
-    caregiver_voice_record_button.pack()
 
 
 def train_sid_button(tab):
@@ -366,5 +316,5 @@ def convert(seconds):
 
 root = Root()
 root.title("Speaker Identification")
-root.geometry("500x500+200+200")
+root.geometry("800x500+200+200")
 root.mainloop()
