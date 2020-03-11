@@ -28,22 +28,22 @@ function identity = PCR_main(fname)
     %[gmmResults, session_speaking, speakerIds, values, num_sessions] ...
     %    = M2FED_detection(fname, nSpeakers, models, session_speaking_percentage, sessionSize);
     
-    [num_count, speakerIds] = M2FED_realtime_detection(fname, sampling_rate, channels, ...
+    [num_count] = M2FED_realtime_detection(fname, sampling_rate, channels, ...
                         nSpeakers, models, session_speaking_percentage, ...
                         sessionSize, gmm_threshold);
     
-    speakerIds = speakerIds(speakerIds ~= 0);
 
+    disp(num_count);
     %disp(speakerIds);
-    sid_mode = mode(speakerIds);
+    sid_mode = mode(num_count);
     %disp(sid_mode);
 
-
-    if sid_mode <= 28 && sid_mode >= 1
-        identity = 1;
-    elseif sid_mode <= 56 && sid_mode >= 29
-        identity = 2;
-    else
-        identity = 0;
-    end
+    identity = sid_mode;
+    %if sid_mode <= 28 && sid_mode >= 1
+        %identity = 1;
+    %elseif sid_mode <= 56 && sid_mode >= 29
+        %identity = 2;
+    %else
+        %identity = 0;
+    %end
 end

@@ -1,4 +1,4 @@
-function [num_count, speakerIds] ...
+function [num_count] ...
     = M2FED_realtime_detection(dataStream, sampling_rate, channels, ...
                         nSpeakers, models, session_speaking_percentage, ...
                         sessionSize, gmm_threshold)
@@ -30,10 +30,6 @@ for channel = 1 : channels
                 detection_algorithm(num2cell(temp(11:49,:), [1 2]), models.gmm, models.ubm, nSpeakers, 1, gmm_threshold);
 
             num_count(channel) = 1;
-            
-            if speakerIds <= 28 && speakerIds >= 0
-                speakerIds = 1;
-            end
 
             dlmwrite(strcat('speaker_id_module//SpeakerID//Temp//Speaker-feature-', num2str(channel), '.txt'), temp(11:49, :));
         end

@@ -18,5 +18,8 @@ else
     models = training(rootDirName, nMixtures, ubm, 0);
 end
 nSpeakers = size(models.gmm, 1);
+%disp('nSpeakers in the model:');
+%disp(nSpeakers);
+
 
 end
