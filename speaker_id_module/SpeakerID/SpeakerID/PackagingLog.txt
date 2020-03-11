@@ -1,0 +1,274 @@
+mcc -W lib:SpeakerID -T link:lib -d C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing -v C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\realtime_detection.m C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\training_or_load_models.m -a C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\G729\vadG729.m -a C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\G729\vadInitCstParams.m 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+[Warning: Adding path "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID" to Compiler
+path instance.] 
+[] 
+[Warning: Adding path "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID" to Compiler
+path instance.] 
+[] 
+[Warning: Duplicate directory name: C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID] 
+[] 
+Parsing file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\realtime_detection.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\training_or_load_models.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 105 temporary MEX authorization files.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028914_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028399_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030309353_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_03030189_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030304617_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303021917_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303010477_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030301927_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030302573_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028590_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303024226_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303015345_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303018544_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030303296_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303015419_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303018645_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303024822_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303029940_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030308521_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303011022_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303019040_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303015292_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303010786_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303017965_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028744_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307030_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028897_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012653_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307244_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303018776_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303024494_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303018427_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303010972_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303022540_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012595_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307431_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303026463_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303017353_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030303428_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030308314_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303020714_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303031342_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303030828_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303030784_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030303853_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303015547_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303032414_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303013471_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303019019_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030308747_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303020500_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303025903_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303019215_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303025801_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303017597_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012266_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303022004_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303021267_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303023597_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030305357_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303011832_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030306308_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303029608_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307222_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307278_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303031248_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030308828_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030304268_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303019826_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030302064_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012436_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303027743_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030307586_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030303551_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303023371_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303023058_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030309291_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303016099_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303023678_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303028663_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030304962_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303026512_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303026597_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030301977_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012852_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030303076_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303016842_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303016245_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030309610_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030304771_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303022463_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303025568_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303027401_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303022811_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303012720_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303030532_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303020866_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303014086_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030302610_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030309269_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303032644_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030301474_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303011768_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_0303014899_12336.auth'.
+Removing: 'C:\Users\zc8fa\AppData\Local\Temp\mathworks_tmp_030309696_12336.auth'.
+Generating file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.h".
+Generating file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.c".
+Generating file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.exports".
+Generating file "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\readme.txt".
+Executing command: ""C:\Program Files\MATLAB\R2015b\bin\mbuild"  -client mbuild -O -v -output "SpeakerID" -I"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing" "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.c"  DEFFILE"=""C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def""" LINKEXPORT"=""/DLL /def:\"$DEFFILE\"""" LDEXT"="".dll""" CMDLINE250"=""mt -outputresource:$EXE;2 -manifest $MANIFEST""" -outdir "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing""Verbose mode is on.
+No MEX options file identified; looking for an implicit selection.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft SDK 7.1 (C)' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft SDK 7.1 (C)'.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2008 (C)' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2008 (C)'.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2010 (C)' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2010 (C)'.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft SDK 7.1' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft SDK 7.1'.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2010 (C)' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2010 (C)'.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2012 (C)' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2012 (C)'.
+... Looking for compiler 'MinGW64 Compiler (C)' ...
+... Looking for environment variable 'MW_MINGW64_LOC' ...No.
+Did not find installed compiler 'MinGW64 Compiler (C)'.
+... Looking for compiler 'Microsoft Visual C++ 2008 (C)' ...
+... Looking for environment variable 'VS90COMNTOOLS' ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2008 (C)'.
+... Looking for compiler 'Microsoft Visual C++ 2010 (C)' ...
+... Looking for environment variable 'VS100COMNTOOLS' ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2010 (C)'.
+... Looking for compiler 'Microsoft Visual C++ 2012 (C)' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 11.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 11.0 ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 11.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 11.0 ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2012 (C)'.
+... Looking for compiler 'Microsoft Visual C++ 2013 Professional (C)' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 12.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64\cl.exe' ...Yes.
+... Looking for folder 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.1' InstallationFolder ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.1' InstallationFolder ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v8.1' InstallationFolder ...Yes ('C:\Program Files (x86)\Windows Kits\8.1\').
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 12.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\').
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VC7' 12.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VC7' 12.0 ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7' 12.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\').
+... Looking for environment variable 'VS120COMNTOOLS' ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 12.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat' ...Yes.
+... Looking for folder 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC' ...Yes.
+Found installed compiler 'Microsoft Visual C++ 2013 Professional (C)'.
+... Looking for compiler 'Microsoft Visual C++ 2015 Professional (C)' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2015 Professional (C)'.
+... Looking for compiler 'Microsoft Windows SDK 7.1 (C)' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1' InstallationFolder ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\Windows\v7.1' InstallationFolder ...No.
+Did not find installed compiler 'Microsoft Windows SDK 7.1 (C)'.
+Set PATH = C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Bin\amd64;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Bin\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\..\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\..\Common7\Tools;C:\Program Files (x86)\Windows Kits\8.1\\Bin\x64;C:\Program Files (x86)\Windows Kits\8.1\\Bin\x86;;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jre1.8.0_66\bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files (x86)\SecureCRT\;C:\PROGRA~2\SecureFX;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\VanDyke Software\SecureFX\;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Program Files\MATLAB\R2016a\runtime\win64;C:\Program Files\MATLAB\R2016a\bin;C:\Program Files (x86)\MATLAB\R2015b\runtime\win32;C:\Program Files (x86)\MATLAB\R2015b\bin;C:\Program Files\MATLAB\R2015b\runtime\win64;C:\Program Files\MATLAB\R2015b\bin;C:\Program Files\MATLAB\MATLAB Runtime\v90\runtime\win64;C:\Program Files (x86)\MATLAB\MATLAB Runtime\v90\runtime\win32;C:\Coq\bin;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\MATLAB\MATLAB Runtime\v901\runtime\win64;C:\Program Files\Git\cmd;C:\python27\Scripts\;C:\python27\;C:\apache-maven-3.3.9\bin
+Set INCLUDE = C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\8.1\\include\shared;C:\Program Files (x86)\Windows Kits\8.1\\include\um;C:\Program Files (x86)\Windows Kits\8.1\\include\winrt;C:\Program Files\MATLAB\R2015b\extern\include;
+Set LIB = C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Lib\amd64;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\ATLMFC\Lib\amd64;C:\Program Files (x86)\Windows Kits\8.1\\lib\winv6.3\um\x64;C:\Program Files\MATLAB\R2015b\lib\win64;
+Set LIBPATH = C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Lib\amd64;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\ATLMFC\Lib\amd64;
+Options file details
+-------------------------------------------------------------------
+	Compiler location: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\..\
+	Options file: C:\Program Files\MATLAB\R2015b\bin\win64\mexopts\msvc2013.xml
+	CMDLINE100 : cl /c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo -O2 -DNDEBUG /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE -IC:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing  -I"C:\Program Files\MATLAB\R2015b\extern\include" -I"C:\Program Files\MATLAB\R2015b\extern\include\win64" C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.c /FoC:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj
+	CMDLINE200 : link /nologo /manifest   /DLL /def:"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def" C:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj  /MACHINE:AMD64 /LIBPATH:"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /out:C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll
+	CMDLINE250 : mt -outputresource:C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll;2 -manifest C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll.manifest
+	CMDLINE300 : del C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll.manifest "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.map" 
+	COMPILER : cl
+	COMPFLAGS : -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo
+	COMPDEFINES : /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE
+	MATLABMEX : 
+	OPTIMFLAGS : -O2 -DNDEBUG
+	INCLUDE : -IC:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing  -I"C:\Program Files\MATLAB\R2015b\extern\include" -I"C:\Program Files\MATLAB\R2015b\extern\include\win64"
+	DEBUGFLAGS : /Z7
+	LINKER : link
+	LINKFLAGS : /nologo /manifest
+	LINKTYPE : 
+	LINKEXPORT : /DLL /def:"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def"
+	LINKLIBS : /MACHINE:AMD64 /LIBPATH:"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+	LINKDEBUGFLAGS : /debug /PDB:"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.pdb"
+	LINKOPTIMFLAGS : 
+	OBJEXT : .obj
+	LDEXT : .dll
+	SETENV : set COMPILER=cl 
+				set COMPFLAGS=/c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE  
+				set OPTIMFLAGS=-O2 -DNDEBUG 
+				set DEBUGFLAGS=/Z7 
+				set LINKER=link 
+				set LINKFLAGS=/nologo /manifest /export:%ENTRYPOINT%  /MACHINE:AMD64 /LIBPATH:"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DLL /def:"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def" 
+				set LINKDEBUGFLAGS=/debug /PDB:"%OUTDIR%%MEX_NAME%.dll.pdb" 
+				set NAME_OUTPUT=/out:"%OUTDIR%%MEX_NAME%%MEX_EXT%"
+	VCROOT : C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC
+	SDKROOT : C:\Program Files (x86)\Windows Kits\8.1\
+	VSINSTALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 12.0\
+	VCINSTALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\
+	PROF_ENV : C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe
+	VCVARSALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC
+	MATLABROOT : C:\Program Files\MATLAB\R2015b
+	ARCH : win64
+	SRC : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.c
+	OBJ : C:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj
+	OBJS : C:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj 
+	SRCROOT : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID
+	DEF : C:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.def
+	EXP : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.exp
+	LIB : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.lib
+	EXE : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll
+	ILK : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.ilk
+	MANIFEST : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll.manifest
+	TEMPNAME : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID
+	EXEDIR : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\
+	EXENAME : SpeakerID
+	DEFFILE : C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def
+	OPTIM : -O2 -DNDEBUG
+	LINKOPTIM : 
+-------------------------------------------------------------------
+Building with 'Microsoft Visual C++ 2013 Professional (C)'.
+cl /c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo -O2 -DNDEBUG /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE -IC:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing  -I"C:\Program Files\MATLAB\R2015b\extern\include" -I"C:\Program Files\MATLAB\R2015b\extern\include\win64" C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.c /FoC:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj
+SpeakerID.c
+
+link /nologo /manifest   /DLL /def:"C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.def" C:\Users\zc8fa\AppData\Local\Temp\mex_1790560354724759_16512\SpeakerID.obj  /MACHINE:AMD64 /LIBPATH:"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /out:C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll
+   Creating library C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.lib and object C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.exp
+
+mt -outputresource:C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll;2 -manifest C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll.manifest
+Microsoft (R) Manifest Tool version 6.3.9600.17029
+
+Copyright (c) Microsoft Corporation 2012. 
+
+All rights reserved.
+
+
+del C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.dll.manifest "C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_testing\SpeakerID.map"
+Packaging...
+Creating the bundle...
+Web based installer created at C:\Dropbox\UVa_lab\SpeakerIDMatlab\SpeakerID\SpeakerID\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.
+Elapsed packaging time was: 2 minutes and 12 seconds.

@@ -1,0 +1,11 @@
+LIBRARY SpeakerID
+EXPORTS
+SpeakerIDInitialize
+SpeakerIDInitializeWithHandlers
+SpeakerIDTerminate
+SpeakerIDPrintStackTrace
+mlxM2FED_load_models
+mlfM2FED_load_models
+mlxM2FED_realtime_detection
+mlfM2FED_realtime_detection
+

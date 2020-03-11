@@ -22,6 +22,8 @@ import pyaudio
 from pydub import AudioSegment
 from pydub.playback import play
 
+import matlab.engine
+
 import logging
 import threading
 import time
@@ -32,7 +34,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
-RECORD_SECONDS = 5
+RECORD_SECONDS = 300
 
 
 class Root(tk.Tk):
@@ -119,6 +121,9 @@ class Application(ttk.Notebook):
 
 def test_sid_button(tab, role):
 
+    location = get_location(role)
+    eng = matlab.engine.start_matlab()
+
     def countdown(count):
         # change text in label       
         display = convert(count) 
@@ -131,23 +136,43 @@ def test_sid_button(tab, role):
             elapsed_time_label['text'] = 'Recording finished'
 
     def voice_record():
+        last = 10
         if voice_record_button['text'] == 'Start Recording' or  voice_record_button['text'] == 'Restart Recording':
-            x = threading.Thread(target=countdown, args=(10, ))
+            x = threading.Thread(target=countdown, args=(last, ))
             y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
-                        RECORD_SECONDS, role, location, ))
+                        last, role, location, ))
             x.start()
             y.start()
             voice_record_button['text'] = 'Restart Recording'
         else:
             pass
 
-        print(os.listdir(location))
-
     def play_voice():
         filelist = os.listdir(location)
         fname = location + filelist[0]
         voice = AudioSegment.from_wav(fname)
         play(voice)
+
+
+    def sid():
+        
+        if not len(os.listdir(location)) == 0:
+            try:
+                fname = location + role + '.wav'
+                #print('speaker identification is initialized...')
+                
+                id = eng.PCR_main(fname, nargout=1)
+                print(id)
+                if id == 1:
+                    sid_label['text'] = 'Caregiver Detected'
+                elif id == 2:
+                    sid_label['text'] = 'Patient Detected'
+                else:
+                    sid_label['text'] = 'Please let the ' + role + ' speak again and test' 
+
+            except:
+                print('error - please re-record your voice.')
+            
 
     # the overview label
     overview_label = ttk.Label(tab, text="Here we test the speaker identification model.", font=("Times New Roman", 11))
@@ -158,8 +183,6 @@ def test_sid_button(tab, role):
 
     elapsed_time_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
     elapsed_time_label.pack()
-
-    location = get_location(role)
 
     voice_record_button = tk.Button(tab, text='Start Recording', width=25, command=voice_record)
     voice_record_button.pack()
@@ -202,6 +225,17 @@ def test_sid_button(tab, role):
     for text, mode in MODES:
         only_speaker_full_button = ttk.Radiobutton(tab, text=text, variable=only_speaker_full_var, value=mode)
         only_speaker_full_button.pack(anchor='w')
+
+    # Another label - confirmation
+    confirmation_label = ttk.Label(tab, text="If you have checked the aforementioned items, you can test the speaker identification model.", font=("Times New Roman", 11))
+    confirmation_label.pack()
+
+    # SID label
+    sid_label = tk.Label(tab, fg="dark green", font=("Times New Roman", 20))
+    sid_label.pack()
+
+    test_button = tk.Button(tab, text='Test Speaker Identification Module', command=sid, width=25)
+    test_button.pack()
 
 
 
@@ -392,7 +426,7 @@ def record_single_session(CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, role, l
 
         os.rename(WAVE_OUTPUT_FILENAME, location + role + '.wav')
         print(location + role + '.wav')
-        return WAVE_OUTPUT_FILENAME
+        return location + role + '.wav'
 
 def replace_special_chars(z, special_chars, new_char):
     removeSpecialChars = z.translate({ord(c): new_char for c in special_chars})
@@ -421,15 +455,7 @@ def get_location(role):
 
     return location
 
-'''
-def sid(role):
-    eng = matlab.engine.start_matlab()
-    location = get_location(role)
-    fname = location + role + '.wav'
-    print('speaker identification is initialized...')
-    sid = eng.PCR_main(fname)
-
-    return sid
+    
 
 def voice_activity_detection(location):
     r = sr.Recognizer()
@@ -451,10 +477,12 @@ def voice_activity_detection(location):
                 print(location + filename + ' is speech.')
                 print(transcription)
 
+                return 1
+
             except: # intelligible
                 os.remove(location + filename)
 
-'''
+
 root = Root()
 root.iconbitmap('icon.ico')
 root.title("Speaker Identification")

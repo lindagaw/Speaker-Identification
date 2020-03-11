@@ -1,0 +1,10 @@
+libemlrt.lib
+libcovrt.lib
+libut.lib
+libmwmathutil.lib
+/export:mexFunction
+/export:emlrtMexFcnProperties
+/export:M2FED_vadG729
+/export:M2FED_vadG729_initialize
+/export:M2FED_vadG729_terminate
+/export:M2FED_vadG729_atexit
