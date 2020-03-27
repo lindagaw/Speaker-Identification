@@ -1,4 +1,4 @@
-function [num_count] ...
+function [speakerIds] ...
     = M2FED_realtime_detection(dataStream, sampling_rate, channels, ...
                         nSpeakers, models, session_speaking_percentage, ...
                         sessionSize, gmm_threshold)
@@ -13,7 +13,7 @@ sig = sig';
 
 speakerIds = zeros(1, channels);
 num_count = zeros(1,channels);
-   
+
 for channel = 1 : channels
 
         % speaker_signal = sig( : ,channel );

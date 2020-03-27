@@ -6,7 +6,7 @@ function identity = PCR_main(fname)
     display(fname)
 
     % turn off the warnings
-    id = 'not registered speaker';
+    identity = 'not registered speaker';
     
     warning('off','all');
 
@@ -28,22 +28,22 @@ function identity = PCR_main(fname)
     %[gmmResults, session_speaking, speakerIds, values, num_sessions] ...
     %    = M2FED_detection(fname, nSpeakers, models, session_speaking_percentage, sessionSize);
     
-    [num_count] = M2FED_realtime_detection(fname, sampling_rate, channels, ...
+    [speakerIds] = M2FED_realtime_detection(fname, sampling_rate, channels, ...
                         nSpeakers, models, session_speaking_percentage, ...
                         sessionSize, gmm_threshold);
     
 
-    disp(num_count);
-    %disp(speakerIds);
-    sid_mode = mode(num_count);
-    %disp(sid_mode);
-
+    sid_mode = speakerIds
     identity = sid_mode;
-    %if sid_mode <= 28 && sid_mode >= 1
-        %identity = 1;
-    %elseif sid_mode <= 56 && sid_mode >= 29
-        %identity = 2;
-    %else
-        %identity = 0;
-    %end
+    
+    disp('raw identification - the nth simulation that has had the highiest probability:');
+    disp(sid_mode);
+
+    if sid_mode <= 28 && sid_mode >= 1
+        identity = 1;
+    elseif sid_mode <= 56 && sid_mode >= 29
+        identity = 2;
+    else
+        identity = 0;
+    end
 end

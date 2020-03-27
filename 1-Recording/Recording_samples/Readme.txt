@@ -1,1 +1,0 @@
-This folder must not be deleted.

@@ -27,6 +27,7 @@ import matlab.engine
 import logging
 import threading
 import time
+import ctypes
 
 import speech_recognition as sr
 
@@ -36,6 +37,10 @@ CHANNELS = 1
 RATE = 16000
 RECORD_SECONDS = 300
 
+record_threads_caregiver = []
+timer_caregiver_flag = True
+record_threads_patient = []
+timer_patient_flag = True
 
 class Root(tk.Tk):
     """Container for all frames within the application"""
@@ -118,6 +123,23 @@ class Application(ttk.Notebook):
         except:
             shutil.rmtree('2-Training//singles//0-nonFamily//')
             os.mkdir('2-Training//singles//0-nonFamily//')
+
+def get_id(my_thread): 
+  
+    # returns id of the respective thread 
+    if hasattr(my_thread, '_thread_id'): 
+        return my_thread._thread_id 
+    for id, thread in threading._active.items(): 
+        if thread is my_thread: 
+            return id
+   
+def raise_exception(my_thread): 
+    thread_id = get_id(my_thread) 
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 
+            ctypes.py_object(SystemExit)) 
+    if res > 1: 
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0) 
+        print('Exception raise failure') 
 
 def test_sid_button(tab, role):
 
@@ -357,8 +379,8 @@ def voice_record_button(tab1, role):
         os.makedirs(location)
 
     def countdown(count):
-        # change text in label       
-        display = convert(count) 
+        # change text in label
+        display = convert(count)
         elapsed_time_label['text'] = 'Remaining time: ' + str(display)
 
         if count > 0:
@@ -366,21 +388,70 @@ def voice_record_button(tab1, role):
             root.after(1000, countdown, count-1)
         if count <= 0:
             elapsed_time_label['text'] = 'Recording finished'
+
     
 
     def voice_record():
-        if voice_record_button['text'] == 'Start Recording' or  voice_record_button['text'] == 'Restart Recording':
-            x = threading.Thread(target=countdown, args=(RECORD_SECONDS,))
+        if voice_record_button['text'] == 'Start Recording' or voice_record_button['text'] == 'Restart Recording':
+            global record_threads_patient
+            global record_threads_caregiver
+            try:
+                if role == 'caregiver':
+                    raise_exception(record_threads_caregiver[0])
+                    record_threads_caregiver[0]._is_stopped = True
+                    record_threads_caregiver[0].join(timeout=1)
+                    #num_threads[0].join()
+                    print('terminated the previous timer for ' + role)
+                
+                    raise_exception(record_threads_caregiver[1])
+                    record_threads_caregiver[1]._is_stopped = True
+                    #num_threads[1].join()
+                    record_threads_caregiver[1].join(timeout=1)
+                    print('terminated the previous recording for ' + role)
+                    record_threads_caregiver = []
+
+                else:
+                    raise_exception(record_threads_patient[0])
+                    #num_threads[0].join()
+                    print('terminated the previous timer for ' + role)
+                
+                    raise_exception(record_threads_patient[1])
+                    #num_threads[1].join()
+                    print('terminated the previous recording for ' + role)
+                    record_threads_patient = []
+
+            except Exception as e:
+                print(e)
+
+
+            x = threading.Thread(target=countdown, args=(RECORD_SECONDS, ), daemon=True)
             y = threading.Thread(target=record_single_session, args=(CHUNK, FORMAT, CHANNELS, RATE, \
-                        RECORD_SECONDS, role, location))
+                        RECORD_SECONDS, role, location,), daemon=True)
+
+            if role == 'caregiver': 
+                record_threads_caregiver.append(x)
+                record_threads_caregiver.append(y)
+
+                print(record_threads_caregiver)
+            if role == 'patient': 
+                record_threads_patient.append(x)
+                record_threads_patient.append(y)
+
+                print(record_threads_patient)
+
+            voice_record_button['text'] = 'Restart Recording'
+
             x.start()
             y.start()
-            voice_record_button['text'] = 'Restart Recording'
+            
         else:
-            pass
+            print("nothing")
             
     voice_record_button = tk.Button(tab1, text='Start Recording', width=25, command=voice_record)
     voice_record_button.pack()
+        
+
+
 
 def record_single_session(CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, role, location):
         p = pyaudio.PyAudio()
