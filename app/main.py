@@ -1,5 +1,14 @@
 from lib import *
 from tab import *
+from train_tab import *
+from test_tab import *
+
+training_caregiver_wav = '..//2-Training//singles//1-caregiver//'
+training_patient_wav = '..//2-Training//singles//2-patient//'
+testing_caregiver_wav = '..//3-Testing//singles//1-caregiver//'
+testing_patient_wav = '..//3-Testing//singles//2-patient//'
+
+wav_dirs = [training_caregiver_wav, training_patient_wav, testing_caregiver_wav, testing_patient_wav]
 
 class Root(tk.Tk):
     """Container for all frames within the application"""
@@ -60,9 +69,10 @@ class Application(ttk.Notebook):
 
         tab1 = Voice_Collection_Tab(self, 'caregiver')
         tab2 = Voice_Collection_Tab(self, 'patient')
-        tab3 = ttk.Frame(self)
-        tab4 = ttk.Frame(self)
-        tab5 = ttk.Frame(self)
+        tab3 = Train_SID_Tab(self)
+
+        tab4 = Test_SID_Tab(self, 'caregiver')
+        tab5 = Test_SID_Tab(self, 'patient')
 
         self.add(tab1, text = "Collect Caregiver's Voice")
         self.add(tab2, text = "Collect Patient's Voice")
@@ -83,6 +93,14 @@ class Application(ttk.Notebook):
             shutil.rmtree('..//2-Training//singles//0-nonFamily//')
             os.mkdir('..//2-Training//singles//0-nonFamily//')
 
+
+def reset_folders():
+    for wav_dir in wav_dirs:
+        try:
+            os.mkdir(wav_dir)
+        except:
+            shutil.rmtree(wav_dir)
+            os.mkdir(wav_dir) 
 
 if __name__ == "__main__":
     root = Root()

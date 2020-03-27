@@ -34,7 +34,7 @@ class Voice_Collection_Tab(ttk.Frame):
     def countdown(self, count):
         # change text in label
         
-        while count > 0:
+        while count >= 0:
             if self.is_paused:
                 time.sleep(1)
             else:
@@ -45,16 +45,6 @@ class Voice_Collection_Tab(ttk.Frame):
         
 
         self.elapsed_time_label['text'] = 'Recording Ended'
-
-
-        '''
-        self.elapsed_time_label['text'] = 'Remaining time: ' + str(display)
-        if count > 0:
-            # call countdown again after 1000ms (1s)
-            self.parent.after(1000, self.countdown, count-1)
-        if count <= 0:
-            self.elapsed_time_label['text'] = 'Recording Ended'
-        '''
 
     def voice_record(self):
         location = get_location(self.role)
@@ -94,6 +84,7 @@ class Voice_Collection_Tab(ttk.Frame):
         self.remaining = RECORD_SECONDS
 
         self.is_paused = False
+        
         
         self.parent = parent
         self.role = role
@@ -225,15 +216,10 @@ def convert(seconds):
 
 def get_location(role):
     if role == 'caregiver':
-        location = '3-Testing//singles//1-caregiver//'
+        location = '..//3-Testing//singles//1-caregiver//'
     else:
-        location = '3-Testing//singles//2-patient//'
+        location = '..//3-Testing//singles//2-patient//'
 
-    try:
-        os.makedirs(location)
-    except:
-        shutil.rmtree(location)
-        os.makedirs(location)
 
     return location
 

@@ -1,20 +1,19 @@
 % This serves as the main function for the acoustic pipeline in PCR.
 % This calls training_or_load_models and M2FED_detection.m for speaker identification.
 
-function identity = PCR_main(fname)
+function identity = SID_main(fname)
 
-    display(fname)
-
+    display(fname);
+    cd '..'
     % turn off the warnings
     identity = 'not registered speaker';
     
     warning('off','all');
 
-    addpath(genpath('speaker_id_module'));
-
+    addpath(genpath('speaker_id_module//'));
     % default setting for parameters
     nMixtures = 1024;
-    rootDirName = '..//speaker_id_module//SpeakerID';
+    rootDirName = 'speaker_id_module//SpeakerID';
     session_speaking_percentage = 0.5;
     sessionSize = 5;
     
