@@ -4,7 +4,7 @@ from killable_thread import Killable_Thread
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 16000
+RATE = 44100
 RECORD_SECONDS = 300
 
 class Train_SID_Tab(ttk.Frame):
@@ -20,9 +20,14 @@ class Train_SID_Tab(ttk.Frame):
                 self.training_label['text'] = 'Finished'
 
     def train(self):
+        print('Starting the training module initialization...')
+        eng = matlab.engine.start_matlab()
+        print('training module initialization finished...')
         if self.training_button['text'] == 'Start Training' or self.training_button['text'] == 'Restart Training':
-            subprocess.Popen([r"cmd"])
-            subprocess.Popen([r"..//2-Training//M2FEDTraining.exe"])
+            #subprocess.Popen([r"cmd"])
+            #subprocess.Popen([r"..//2-Training//M2FEDTraining.exe"])
+            eng.SID_train(nargout=0)
+
             self.training_button['text'] = 'Restart Training'
         else:
             pass

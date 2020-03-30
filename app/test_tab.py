@@ -4,18 +4,19 @@ from killable_thread import *
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 16000
+RATE = 44100
 RECORD_SECONDS = 10
 
 class Test_SID_Tab(ttk.Frame):
 
     def sid(self):
         location = get_location(self.role)
+        eng = matlab.engine.start_matlab()
         if not len(os.listdir(location)) == 0:
             try:
                 fname = location + self.role + '.wav'
                 #print('speaker identification is initialized...')
-                id = self.eng.SID_main(fname[4:len(fname)], nargout=1)
+                id = eng.SID_main(fname[4:len(fname)], nargout=1)
                 print(id)
                 if id == 1:
                     self.sid_label['text'] = 'Caregiver Detected'

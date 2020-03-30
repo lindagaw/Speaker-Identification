@@ -5,7 +5,7 @@ from clock import Clock
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 16000
+RATE = 44100
 RECORD_SECONDS = 300
 
 
@@ -189,7 +189,7 @@ class Voice_Collection_Tab(ttk.Frame):
             wf.close()
             
             print("Generated audio file " + WAVE_OUTPUT_FILENAME)
-
+            temp_location = get_temp_location(role)
             try:
                 os.remove(location + role + '.wav')
                 print('Deleted previously generated file with the same name.')
@@ -198,6 +198,17 @@ class Voice_Collection_Tab(ttk.Frame):
 
             os.rename(WAVE_OUTPUT_FILENAME, location + role + '.wav')
             print(location + role + '.wav')
+
+            try:
+                os.remove(temp_location + role + '.wav')
+                print('Deleted previously generated file FOR TRAINING with the same name.')
+            except:
+                pass
+
+            
+            shutil.copyfile(location + role + '.wav', temp_location + role + '.wav')
+
+
             return location + role + '.wav'
 
 
@@ -220,6 +231,13 @@ def get_location(role):
     else:
         location = '..//2-Training//singles//2-patient//'
 
-
     return location
 
+def get_temp_location(role):
+    #C:\Users\Ash Gao\Documents\GitHub\Speaker-Identification\speaker_id_module\SpeakerID\singles\1-caregiver
+    if role == 'caregiver':
+        location = '..//speaker_id_module//SpeakerID//singles//1-caregiver//'
+    else:
+        location = '..//speaker_id_module//SpeakerID//singles//2-patient//'
+
+    return location

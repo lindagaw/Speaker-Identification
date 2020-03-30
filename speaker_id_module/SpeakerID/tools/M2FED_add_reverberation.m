@@ -10,7 +10,10 @@ for i = 0.2:0.3:0.8
 end
 
 fileList = getAllFilesWithExtension(folder, '.wav');
+disp('start adding reverberation');
+
 parfor file_index = 1 : length(fileList)
+    
     [path,filename,~] = fileparts(fileList{file_index});
     [signal_original,fs] = audioread(fileList{file_index});
     
@@ -23,6 +26,7 @@ parfor file_index = 1 : length(fileList)
     %To model a small room, use high decay factor, short reverb tail.
     for WetDry = [0.2 0.3 0.4]
         for i = 1 : size(parameters,1)
+            
             %DecayFactor is proportional to the time it takes for 
             %reflections to run out of energy.
             DecayFactor = parameters(i,1);

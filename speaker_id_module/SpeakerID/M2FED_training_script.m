@@ -3,8 +3,8 @@ function [] = M2FED_training_script(rootDirName, nMixtures)
 fprintf(1, 'Training directory: %s\n', rootDirName);
 
 try
-    M2FED_add_reverberation(strcat(rootDirName, 'tools'));
-    
+    %M2FED_add_reverberation(strcat(rootDirName, 'tools'));
+    M2FED_add_reverberation(strcat(rootDirName, '//singles'));
     try
         ubm = [];
         if exist(strcat(rootDirName, '\models_ubm', num2str(nMixtures),'.mat'),'file')
@@ -18,7 +18,8 @@ try
         disp(a);
         fprintf(1, 'Training failed\n');
     end
-catch
+catch b
+    disp(b);
     fprintf(1, 'Reverberation generation failed\n');
 end
 
