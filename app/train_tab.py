@@ -26,8 +26,8 @@ class Train_SID_Tab(ttk.Frame):
         if self.training_button['text'] == 'Start Training' or self.training_button['text'] == 'Restart Training':
             #subprocess.Popen([r"cmd"])
             #subprocess.Popen([r"..//2-Training//M2FEDTraining.exe"])
+            sys.stdout = open('file.txt', 'w')
             eng.SID_train(nargout=0)
-
             self.training_button['text'] = 'Restart Training'
         else:
             pass

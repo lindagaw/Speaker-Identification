@@ -56,6 +56,16 @@ parfor file_index = 1 : length(fileList)
                 '-',num2str(DecayFactor*10),'-',num2str(Diffusion*10),'.wav');
             disp(newfilename);
             audiowrite(newfilename,signal_reverb,fs);
+            
+            file = 'app//file.txt'
+            fileID = fopen(file,'r');
+            formatSpec = '%f';
+            iter = fscanf(fileID,formatSpec);
+            fclose(fileID);
+            iter = iter + 1;
+            fileID = fopen(file,'w');
+            fprintf(fileID,'%f %f\n',iter);
+            fclose(fileID);
         end            
     end
 end
