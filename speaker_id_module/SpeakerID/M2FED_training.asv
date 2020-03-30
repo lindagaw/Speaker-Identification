@@ -30,20 +30,20 @@ parfor i = 1 : times
         continue;    %ubm exists, so no need to recalculate ubm
     end
     
+    disp('in here');
     files = dir(strcat(rootDirName,'//singles//',folders(i+2).name));
+    
     num_files = length(files) - 2;
-
     currSpeakerData = cell(num_files,1);      
     for j = 1 : length(files) - 2
         fprintf(1, 'Training input file %s\n', strcat(rootDirName, '//singles//', folders(i+2).name, '//', files(j+2).name));
         [Y,FS] = audioread(strcat(rootDirName, '//singles//', folders(i+2).name, '//', files(j+2).name));
-
+        
         [b,a] = butter(3, [100/(FS/2), 3500/(FS/2)], 'bandpass');
-
         if only_1_microphone == 1
         	Y = Y(:,1);
         end
-
+        
         for channel = 1 : size(Y, 2)    % read every channel's data            
             Y(:,channel) = filter(b,a,Y(:,channel));
             voicing = M2FED_vad_g729(Y(:,channel), FS, FS*0.01);

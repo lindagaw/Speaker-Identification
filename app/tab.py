@@ -216,9 +216,9 @@ def convert(seconds):
 
 def get_location(role):
     if role == 'caregiver':
-        location = '..//3-Testing//singles//1-caregiver//'
+        location = '..//2-Training//singles//1-caregiver//'
     else:
-        location = '..//3-Testing//singles//2-patient//'
+        location = '..//2-Training//singles//2-patient//'
 
 
     return location
