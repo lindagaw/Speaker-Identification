@@ -8,9 +8,50 @@ RATE = 44100
 RECORD_SECONDS = 300
 
 class Train_SID_Tab(ttk.Frame):
-    
+
+    def progress_bar(self, yield_time):
+        # singles = 'Speaker-Identification\speaker_id_module\SpeakerID\singles'
+        singles = '..//speaker_id_module//speakerID//singles'
+
+        original_num = len(os.listdir(singles))
+
+        start_waxing = False
+        start_waning = False
+        self.progress['value'] = 0
+            
+        while True:
+            current_num = len(os.listdir(singles))
+
+            if current_num > original_num:
+                start_waxing = True
+                original_num = current_num
+                time.sleep(yield_time)
+                self.progress['value'] = self.progress['value'] + 3
+
+            elif current_num < original_num:
+                start_waning = True
+                original_num = current_num
+                time.sleep(yield_time)
+                self.progress['value'] = self.progress['value'] + 3
+
+            else:
+                if not (start_waning and start_waxing):
+                    continue
+                else:
+                    self.progress['value'] = self.max_files*5
+                    src = '..//speaker_id_module//speakerID//models_1024.mat'
+                    dest = '..//2-Training//models_1024.mat'
+                    shutil.copyfile(src, dest)
+                    break
+        
+
     def check(self, yield_time):
         count = 0
+        try:
+            os.remove("..//2-Training//models_1024.mat")
+        except Exception as e:
+            print(e)
+
         while True:
             if not os.path.exists("..//2-Training//models_1024.mat"):
                 count += 1
@@ -26,7 +67,6 @@ class Train_SID_Tab(ttk.Frame):
         if self.training_button['text'] == 'Start Training' or self.training_button['text'] == 'Restart Training':
             #subprocess.Popen([r"cmd"])
             #subprocess.Popen([r"..//2-Training//M2FEDTraining.exe"])
-            sys.stdout = open('file.txt', 'w')
             eng.SID_train(nargout=0)
             self.training_button['text'] = 'Restart Training'
         else:
@@ -35,8 +75,10 @@ class Train_SID_Tab(ttk.Frame):
     def train_and_check(self):
         x = Killable_Thread(target=self.train, args=())
         y = Killable_Thread(target=self.check, args=(1,))
+        z = Killable_Thread(target=self.progress_bar, args=(1,))
         x.start()
         y.start()
+        z.start()
 
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
@@ -70,9 +112,16 @@ class Train_SID_Tab(ttk.Frame):
             self.patient_button = ttk.Radiobutton(self, text=text, variable=self.patient_var, value=mode)
             self.patient_button.pack(anchor='w')
 
-
         self.training_label = tk.Label(self, fg="dark green", font=("Times New Roman", 20))
         self.training_label.pack()
+        
+        self.max_files = (len(os.listdir('..//speaker_id_module//speakerID/singles')) - 1) * 2 * 27
+        self.progress = Progressbar(self, orient='horizontal', length=self.max_files*5, mode='determinate')
+        self.progress.pack()
+        
+        self.progressbar_label = tk.Label(self, fg="dark green", font=("Times New Roman", 20))
+        self.progressbar_label.pack()
+
 
         self.training_button = tk.Button(self, text='Start Training', width=25, command=self.train_and_check)
         self.training_button.pack()

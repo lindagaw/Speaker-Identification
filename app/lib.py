@@ -1,5 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter.ttk import *
+from tkinter import *
 import sys
 
 import subprocess

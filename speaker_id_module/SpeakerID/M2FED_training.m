@@ -60,6 +60,7 @@ parfor i = 1 : times
                 currSpeakerData{j} = [currSpeakerData{j}, all_training_featuresSpeaking(11:49,:)];
             end
         end
+
     end
     trainSpeakerData{i} = currSpeakerData;
 end

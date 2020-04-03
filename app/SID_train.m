@@ -14,6 +14,7 @@ function identity = SID_train()
     channels = 1;
     
     gmm_threshold = 0.6;
+
     M2FED_training_script(rootDirName, nMixtures)
     
 
