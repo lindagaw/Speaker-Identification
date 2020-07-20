@@ -2,6 +2,7 @@ from lib import *
 from tab import *
 from train_tab import *
 from test_tab import *
+from confirm_tab import *
 
 training_caregiver_wav = '..//2-Training//singles//1-caregiver//'
 training_patient_wav = '..//2-Training//singles//2-patient//'
@@ -73,12 +74,14 @@ class Application(ttk.Notebook):
 
         tab4 = Test_SID_Tab(self, 'caregiver')
         tab5 = Test_SID_Tab(self, 'patient')
+        tab6 = Confirmation_Tab(self)
 
         self.add(tab1, text = "Collect Caregiver's Voice")
         self.add(tab2, text = "Collect Patient's Voice")
         self.add(tab3, text = "Train the Model")
         self.add(tab4, text = "Test the Model on Caregiver")
         self.add(tab5, text = "Test the Model on Patient")
+        self.add(tab6, text = "Confirmation")
 
         #voice_record_button(tab1, 'caregiver')
         #voice_record_button(tab2, 'patient')
