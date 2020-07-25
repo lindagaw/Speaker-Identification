@@ -111,7 +111,8 @@ def reset_folders():
 
 if __name__ == "__main__":
     root = Root()
-    #root.iconbitmap('icon.ico')
+    #Set App icon   
+    root.iconbitmap(r'..//icon.ico')
     root.title("Speaker Identification")
     root.geometry("900x500+200+200")
     root.mainloop()  
