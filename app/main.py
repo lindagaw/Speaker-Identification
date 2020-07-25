@@ -1,4 +1,5 @@
 from lib import *
+from microphone import *
 from tab import *
 from train_tab import *
 from test_tab import *
@@ -68,6 +69,8 @@ class Application(ttk.Notebook):
     def __init__(self, root):
         ttk.Notebook.__init__(self, root)
 
+        tab0 = Microphone_Tab(self)
+
         tab1 = Voice_Collection_Tab(self, 'caregiver')
         tab2 = Voice_Collection_Tab(self, 'patient')
         tab3 = Train_SID_Tab(self)
@@ -76,6 +79,7 @@ class Application(ttk.Notebook):
         tab5 = Test_SID_Tab(self, 'patient')
         tab6 = Confirmation_Tab(self)
 
+        self.add(tab0, text = "Verify Microphone")
         self.add(tab1, text = "Collect Caregiver's Voice")
         self.add(tab2, text = "Collect Patient's Voice")
         self.add(tab3, text = "Train the Model")
@@ -109,5 +113,5 @@ if __name__ == "__main__":
     root = Root()
     #root.iconbitmap('icon.ico')
     root.title("Speaker Identification")
-    root.geometry("800x500+200+200")
+    root.geometry("900x500+200+200")
     root.mainloop()  
