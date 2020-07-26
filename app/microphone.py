@@ -15,14 +15,12 @@ class Microphone_Tab(ttk.Frame):
 
     def detect_mic(self):
         p = pyaudio.PyAudio()
-        default_device = p.get_default_input_device_info()
+        try:
+            default_device = p.get_default_input_device_info()
+            self.confirm_status['text'] = default_device['name']
+        except:
+            self.confirm_status['text'] = 'No microphone detected. Please plug in the microphone.'
 
-        self.confirm_status['text'] = default_device['name']
-
-        print(default_device['name'])
-
-        print(default_device)
-    
 
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)

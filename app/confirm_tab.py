@@ -73,7 +73,7 @@ class Confirmation_Tab(ttk.Frame):
         self.finish.pack()
 
         # the status label
-        self.confirm_status = ttk.Label(self, text=" ", font=("Times New Roman", 11))
+        self.confirm_status = tk.Label(self, text=" ", fg="dark green", font=("Times New Roman", 20))
         self.confirm_status.pack()
 
 
