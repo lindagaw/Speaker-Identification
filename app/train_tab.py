@@ -11,10 +11,10 @@ class Train_SID_Tab(ttk.Frame):
 
     def progress_bar(self, yield_time):
         # singles = 'Speaker-Identification\speaker_id_module\SpeakerID\singles'
-        singles = '..//speaker_id_module//speakerID//singles'
-
-        for dir in os.listdir(singles):
-            if len(singles+'//'+dir) == 0:
+        #singles = '..//speaker_id_module//speakerID//singles'
+        singles = '..//2-Training//singles'
+        for folder in os.listdir(singles):
+            if len(singles+'//'+folder) == 0:
                 shutil.rmtree(singles+'//'+dir)
 
         original_num = len(os.listdir(singles))

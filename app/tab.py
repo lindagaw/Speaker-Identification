@@ -190,6 +190,7 @@ class Voice_Collection_Tab(ttk.Frame):
             
             print("Generated audio file " + WAVE_OUTPUT_FILENAME)
             temp_location = get_temp_location(role)
+
             try:
                 os.remove(location + role + '.wav')
                 print('Deleted previously generated file with the same name.')
@@ -199,16 +200,16 @@ class Voice_Collection_Tab(ttk.Frame):
             os.rename(WAVE_OUTPUT_FILENAME, location + role + '.wav')
             print(location + role + '.wav')
 
+            '''
             try:
                 os.remove(temp_location + role + '.wav')
                 print('Deleted previously generated file FOR TRAINING with the same name.')
             except:
                 pass
-
+            '''
             
             shutil.copyfile(location + role + '.wav', temp_location + role + '.wav')
-
-
+            print('copied to location ' + temp_location + role + '.wav')
             return location + role + '.wav'
 
 
