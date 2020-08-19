@@ -13,6 +13,10 @@ class Train_SID_Tab(ttk.Frame):
         # singles = 'Speaker-Identification\speaker_id_module\SpeakerID\singles'
         singles = '..//speaker_id_module//speakerID//singles'
 
+        for dir in os.listdir(singles):
+            if len(singles+'//'+dir) == 0:
+                shutil.rmtree(singles+'//'+dir)
+
         original_num = len(os.listdir(singles))
 
         start_waxing = False
@@ -116,6 +120,7 @@ class Train_SID_Tab(ttk.Frame):
         self.training_label.pack()
         
         self.max_files = (len(os.listdir('..//speaker_id_module//speakerID/singles')) - 1) * 2 * 27
+        
         self.progress = Progressbar(self, orient='horizontal', length=self.max_files*5, mode='determinate')
         self.progress.pack()
         

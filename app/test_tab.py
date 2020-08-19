@@ -38,6 +38,9 @@ class Test_SID_Tab(ttk.Frame):
 
     def voice_record(self):
         location = get_location(self.role)
+
+        self.sid_label['text'] = ' '
+        
         if self.voice_record_button['text'] == 'Start Recording' or self.voice_record_button['text'] == 'Restart Recording':
 
             if not len(self.active_threads) == 0:
