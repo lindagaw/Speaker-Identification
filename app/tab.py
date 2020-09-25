@@ -232,6 +232,9 @@ def get_location(role):
     else:
         location = '..//2-Training//singles//2-patient//'
 
+    if not os.path.isdir(location):
+        os.makedirs(location)
+
     return location
 
 def get_temp_location(role):
@@ -240,5 +243,12 @@ def get_temp_location(role):
         location = '..//speaker_id_module//SpeakerID//singles//1-caregiver//'
     else:
         location = '..//speaker_id_module//SpeakerID//singles//2-patient//'
+
+    try:
+        os.remove(location)
+    except:
+        print('no historical data (trash audio recordings) at location ' + location)
+    if not os.path.isdir(location):
+        os.makedirs(location)
 
     return location

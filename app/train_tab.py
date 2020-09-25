@@ -118,8 +118,11 @@ class Train_SID_Tab(ttk.Frame):
 
         self.training_label = tk.Label(self, fg="dark green", font=("Times New Roman", 20))
         self.training_label.pack()
+
+        if not os.path.isdir('..//speaker_id_module//speakerID//singles'):
+            os.makedirs('..//speaker_id_module//speakerID//singles')
         
-        self.max_files = (len(os.listdir('..//speaker_id_module//speakerID/singles')) - 1) * 2 * 27
+        self.max_files = (len(os.listdir('..//speaker_id_module//speakerID//singles')) ) * 2 * 27
         
         self.progress = Progressbar(self, orient='horizontal', length=self.max_files*5, mode='determinate')
         self.progress.pack()
