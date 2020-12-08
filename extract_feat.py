@@ -10,7 +10,7 @@ import shutil
 import glob
 import gc
 import sys
-import h5py
+#import h5py
 from sklearn import model_selection
 from sklearn.ensemble import RandomForestClassifier
 

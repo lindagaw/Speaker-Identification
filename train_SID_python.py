@@ -80,9 +80,9 @@ def deamplify_per_folder(directory):
 def add_noise_and_deamplify_per_folder(directory, extension, noise_directory):
     for file in os.listdir(directory):
         if file.endswith(extension) and not file[1] == '_':
-            for i in range(0, 1):
+            for i in range(0, 2):
                 soundFile = directory + file
-                amount = change_amplitude_range(soundFile, soundFile, 12)
+                amount = change_amplitude_range(soundFile, soundFile, 6)
                 noise = random.choice(os.listdir(noise_directory))
                 random_noise = noise_directory + noise
                 newSoundFile = directory + 'deamp_' + str(amount) + '_noise_' + noise[:len(noise)-5] + '_' + file
@@ -161,6 +161,85 @@ def support_vector_machine():
     pickle.dump(clf, open(filename, 'wb'))
 
 
+import tensorflow as tf
+
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.constraints import maxnorm
+from keras.layers import Convolution1D, Dense, MaxPooling1D, Flatten, Add, Dropout, Input, Activation
+from keras.layers import TimeDistributed, Bidirectional, LSTM, LeakyReLU
+from keras.models import Sequential
+from keras import optimizers, regularizers
+from keras.utils import np_utils, to_categorical
+from keras.models import Model, load_model, Sequential
+from keras.regularizers import l2
+
+import keras
+
+from IPython.display import clear_output
+from tensorflow.python.client import device_lib
+from tensorflow.python.keras import backend
+import tensorflow as tf
+
+
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+tf.keras.backend.clear_session()
+tf.compat.v1.reset_default_graph()
+
+def mil_squared_error(y_true, y_pred):
+    return tf.keras.backend.square(tf.keras.backend.max(y_pred) - tf.keras.backend.max(y_true))
+
+adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
+
+def cnn():
+
+    model = keras.Sequential()
+    model.add(Convolution1D(filters= 1500, kernel_size=2, strides=2, activation='relu', input_shape=X_train[0].shape))
+    model.add(MaxPooling1D(2))
+    model.add(Dropout(0.2))
+
+    model = keras.Sequential()
+    model.add(Convolution1D(filters= 500, kernel_size=2, strides=2, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Dropout(0.2))
+
+    model = keras.Sequential()
+    model.add(Convolution1D(filters= 500, kernel_size=2, strides=2, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Dropout(0.2))
+
+    model = keras.Sequential()
+    model.add(Convolution1D(filters= 500, kernel_size=2, strides=2, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Dropout(0.2))
+
+    model.add(Flatten())
+
+    for i in range(0, 1):
+        model.add(Dense(256, activation="relu"))
+        model.add(Dropout(0.2))
+    model.add(Dense(2, activation="softmax"))
+    model.compile(loss=['categorical_crossentropy'], optimizer=adam, metrics=['accuracy', mil_squared_error])
+    
+    print("Fit model on training data")
+    history = model.fit(
+        X_train,
+        y_train,
+        batch_size=64,
+        epochs=150,
+        validation_data=(X_val, y_val), verbose=1
+    )
+
+    #from sklearn.metrics import f1_score
+
+    y_preds = [np.argmax(val) for val in model.predict(X_test)]
+    y_trues = [np.argmax(val) for val in y_test]
+    print(accuracy_score(y_trues, y_preds))
+
+    model.save('models//cnn.hdf5')
+
+    return model
+
+
 # STEP 1: slice into 5-second wavs
 slice_audios(path_caregiver, dest_caregiver)
 slice_audios(path_patient, dest_patient)
@@ -174,12 +253,14 @@ X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
 X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
 
 X = np.vstack((X_caregiver, X_patient))
-y = np.vstack((y_caregiver, y_patient))
+y = to_categorical( np.vstack((y_caregiver, y_patient)) )
 
-nsamples, nx, ny = X.shape
-X = X.reshape((nsamples,nx*ny))
+#nsamples, nx, ny = X.shape
+#X = X.reshape((nsamples,nx*ny))
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
-support_vector_machine()
-random_forest()
+cnn()
+#support_vector_machine()
+#random_forest()
