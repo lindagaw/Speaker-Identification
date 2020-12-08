@@ -11,8 +11,8 @@ class Train_SID_Tab(ttk.Frame):
 
     def progress_bar(self, yield_time):
         # singles = 'Speaker-Identification\speaker_id_module\SpeakerID\singles'
-        #singles = '..//speaker_id_module//speakerID//singles'
-        singles = '..//2-Training//singles'
+        singles = '..//speaker_id_module//speakerID//singles'
+        #singles = '..//2-Training//singles'
         for folder in os.listdir(singles):
             if len(singles+'//'+folder) == 0:
                 shutil.rmtree(singles+'//'+dir)
@@ -123,6 +123,8 @@ class Train_SID_Tab(ttk.Frame):
             os.makedirs('..//speaker_id_module//speakerID//singles')
         
         self.max_files = (len(os.listdir('..//speaker_id_module//speakerID//singles')) ) * 2 * 27
+
+        print(os.listdir('..//speaker_id_module//speakerID//singles'))
         
         self.progress = Progressbar(self, orient='horizontal', length=self.max_files*5, mode='determinate')
         self.progress.pack()
