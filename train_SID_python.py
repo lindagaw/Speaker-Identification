@@ -124,41 +124,6 @@ def extract_features_for_all_wavs(dest, label):
 
     return result, labels
 
-def random_forest():
-    clf = RandomForestClassifier(n_estimators=100, 
-                            bootstrap = True,
-                            max_features = 'sqrt')
-
-    # Fit on training data
-    clf.fit(X_train, np.squeeze(y_train))
-
-    y_train_pred = clf.predict(X_train)
-    print('Training accuracy on selected features: %.3f' % accuracy_score(y_train, y_train_pred))
-
-    y_test_pred = clf.predict(X_test)
-    print('Testing accuracy on selected features: %.3f' % accuracy_score(y_test, y_test_pred))
-
-    filename = 'models//finalized_random_forest.sav'
-    pickle.dump(clf, open(filename, 'wb'))
-
-def support_vector_machine():
-    clf = svm.SVC()
-    # Fit on training data
-    
-    clf = RandomForestClassifier(n_estimators=100, 
-                            bootstrap = True,
-                            max_features = 'sqrt')
-    # Fit on training data
-    clf.fit(X_train, np.squeeze(y_train))
-
-    y_train_pred = clf.predict(X_train)
-    print('Training accuracy on selected features: %.3f' % accuracy_score(y_train, y_train_pred))
-
-    y_test_pred = clf.predict(X_test)
-    print('Testing accuracy on selected features: %.3f' % accuracy_score(y_test, y_test_pred))
-
-    filename = 'models//finalized_svm.sav'
-    pickle.dump(clf, open(filename, 'wb'))
 
 
 import tensorflow as tf
@@ -190,7 +155,7 @@ def mil_squared_error(y_true, y_pred):
 
 adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
 
-def cnn():
+def train_cnn():
 
     model = keras.Sequential()
     model.add(Convolution1D(filters= 1500, kernel_size=2, strides=2, activation='relu', input_shape=X_train[0].shape))
@@ -240,6 +205,7 @@ def cnn():
     return model
 
 
+
 # STEP 1: slice into 5-second wavs
 slice_audios(path_caregiver, dest_caregiver)
 slice_audios(path_patient, dest_patient)
@@ -261,6 +227,70 @@ y = to_categorical( np.vstack((y_caregiver, y_patient)) )
 X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
-cnn()
-#support_vector_machine()
-#random_forest()
+model = train_cnn()
+
+intermediate_layer_model = keras.Model(inputs=model.input,
+                                    outputs=model.get_layer(index=len(model.layers)-2).output)
+intermediate_layer_model.summary()
+
+def get_emp_miu(X, y):
+    outputs = intermediate_layer_model.predict(X)
+    norms = [np.linalg.norm(output) for output in outputs]
+    emp_miu = np.mean(norms)
+
+    path = 'models//emp_miu_class_' + str(y) + '.npy'
+    print('emp_miu_class_' + str(y) + ' = ' + str(emp_miu))
+    np.save(path, emp_miu)
+    return emp_miu
+
+def get_emp_sigma(emp_miu_0, emp_miu_1, X_0, X_1):
+
+    class_0 = [ (x-emp_miu_0)@np.transpose(x-emp_miu_0) for x in intermediate_layer_model.predict(X_0) ]
+    class_1 = [ (x-emp_miu_1)@np.transpose(x-emp_miu_1) for x in intermediate_layer_model.predict(X_1) ]
+
+    emp_sigma = np.vstack( (np.expand_dims(class_0, axis=0), np.expand_dims(class_1, axis=0) ) )
+    
+    
+    print('the emprical covar matrix has shape ' + str(emp_sigma.shape))
+    path = 'models//inv_emp_sigma.npy'
+    np.save(path, np.linalg.pinv(emp_sigma))
+    return emp_sigma
+
+def get_emp_mahalanobis(X, y):
+    mahalanobis_coeff = 0
+
+    emp_miu = np.load('models//emp_miu_class_' + str(y) + '.npy')
+    inv_emp_sigma = np.load('models//inv_emp_sigma.npy')
+
+    mahalanobis_dists = [np.transpose(x-emp_miu) @ inv_emp_sigma @ (x-emp_miu) for x in intermediate_layer_model.predict(X)]
+
+    mahalanobis_mean = np.mean(mahalanobis_dists)
+    mahalanobis_std = np.std(mahalanobis_dists)
+
+    print('mahalanobis mean for class ' + str(y) + ' is ' + str(mahalanobis_mean))
+    print('mahalanobis std for class ' + str(y) + ' is ' + str(mahalanobis_std))
+
+    np.save('models//mahalanobis_mean_class_' + str(y) + '.npy', mahalanobis_mean)
+    np.save('models//mahalanobis_std_class_' + str(y) + '.npy', mahalanobis_std)
+    for coeff in range(0.25, 5, 0.25):
+        upper = mahalanobis_mean + coeff*mahalanobis_std
+        lower = mahalanobis_mean + coeff*mahalanobis_std
+
+        valid_xs = [x for x in intermediate_layer_model.predict(X) if x > lower and x < upper]
+
+        if len(valid_xs)/len(X) > 0.8:
+            mahalanobis_coeff = coeff
+            np.save('models//mahalanobis_threshold_coefficient.npy', coeff)
+            print('the mahalanobis threshold coefficient is ' + str(coeff))
+            break
+
+    return mahalanobis_mean, mahalanobis_std, mahalanobis_coeff
+
+
+emp_miu_caregiver = get_emp_miu(X_caregiver, 0)
+emp_miu_patient = get_emp_miu(X_patient, 1)
+
+emp_sigma = get_emp_sigma(emp_miu_caregiver, emp_miu_patient, X_caregiver, X_patient)
+
+#m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0)
+#m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1)
