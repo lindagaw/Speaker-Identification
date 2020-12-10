@@ -245,11 +245,10 @@ def get_emp_miu(X, y):
 
 def get_emp_sigma(emp_miu_0, emp_miu_1, X_0, X_1):
 
-    class_0 = [ (x-emp_miu_0)@np.transpose(x-emp_miu_0) for x in intermediate_layer_model.predict(X_0) ]
-    class_1 = [ (x-emp_miu_1)@np.transpose(x-emp_miu_1) for x in intermediate_layer_model.predict(X_1) ]
+    class_0 = [ (x-emp_miu_0) @ np.transpose(x-emp_miu_0) for x in intermediate_layer_model.predict(X_0) ]
+    class_1 = [ (x-emp_miu_1) @ np.transpose(x-emp_miu_1) for x in intermediate_layer_model.predict(X_1) ]
 
-    emp_sigma = np.vstack( (np.expand_dims(class_0, axis=0), np.expand_dims(class_1, axis=0) ) )
-    
+    emp_sigma = (class_0 + class_1)/(len(class_0) + len(class_1))
     
     print('the emprical covar matrix has shape ' + str(emp_sigma.shape))
     path = 'models//inv_emp_sigma.npy'
@@ -292,5 +291,5 @@ emp_miu_patient = get_emp_miu(X_patient, 1)
 
 emp_sigma = get_emp_sigma(emp_miu_caregiver, emp_miu_patient, X_caregiver, X_patient)
 
-#m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0)
-#m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1)
+m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0)
+m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1)

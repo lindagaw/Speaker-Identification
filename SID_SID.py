@@ -70,8 +70,6 @@ if __name__ == '__main__':
             if not fname.endswith('.wav'):
                 continue
             try:
-
-
                 audio = path + fname
                 vec = np.expand_dims(extract_feats_single_wav(audio), axis=0)
 
@@ -87,7 +85,7 @@ if __name__ == '__main__':
                 pred = np.argmax(raw_pred)
 
                 if pred == 0:
-                    speaker = 'documentary on Henry VIII'
+                    speaker = 'Jack'
                 elif pred == 1:
                     speaker = 'Ashley'
                 else:
