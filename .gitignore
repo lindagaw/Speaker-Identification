@@ -2,4 +2,4 @@
 *.wav
 *.jar
 
-! noise_home//*.wav
+!noise_home/*.wav
