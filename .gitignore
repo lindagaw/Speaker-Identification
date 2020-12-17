@@ -2,4 +2,5 @@
 *.wav
 *.jar
 
+!speaker_id_module/SpeakerID/singles/*.wav
 !noise_home/*.wav
