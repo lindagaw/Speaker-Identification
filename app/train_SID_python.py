@@ -158,7 +158,7 @@ adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
 
 slice_audios(path_caregiver, dest_caregiver)
 slice_audios(path_patient, dest_patient)
-noise_directory = 'D://Background_noise//noise_home//'
+noise_directory = '..//noise_home//'
 
 add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
 add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
