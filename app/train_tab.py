@@ -1,5 +1,9 @@
 from lib import *
 from killable_thread import Killable_Thread
+import contextlib
+import sys
+
+from train_SID_python import start_train
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -22,7 +26,7 @@ class Train_SID_Tab(ttk.Frame):
         start_waxing = False
         start_waning = False
         self.progress['value'] = 0
-            
+        '''    
         while True:
             current_num = len(os.listdir(singles))
 
@@ -47,7 +51,7 @@ class Train_SID_Tab(ttk.Frame):
                     dest = '..//2-Training//models_1024.mat'
                     shutil.copyfile(src, dest)
                     break
-        
+        '''
 
     def check(self, yield_time):
         count = 0
@@ -69,9 +73,10 @@ class Train_SID_Tab(ttk.Frame):
         eng = matlab.engine.start_matlab()
         print('training module initialization finished...')
         if self.training_button['text'] == 'Start Training' or self.training_button['text'] == 'Restart Training':
-            #subprocess.Popen([r"cmd"])
-            #subprocess.Popen([r"..//2-Training//M2FEDTraining.exe"])
-            eng.SID_train(nargout=0)
+
+            with open('SID_training_log.txt','a') as f:
+                with contextlib.redirect_stdout(f):
+                    start_train()
             self.training_button['text'] = 'Restart Training'
         else:
             pass
