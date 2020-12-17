@@ -28,6 +28,11 @@ path_patient = '..//speaker_id_module//SpeakerID//singles//2-patient//'
 dest_patient = '..//app//2-Training//singles//2-patient//'
 
 def slice_audios(path, dest):
+    try:
+        os.makedirs(dest)
+    except:
+        pass
+
     for old_audio in os.listdir(dest):
         os.remove(dest + old_audio)
         
