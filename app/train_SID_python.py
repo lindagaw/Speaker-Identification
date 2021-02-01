@@ -161,25 +161,6 @@ def mil_squared_error(y_true, y_pred):
 adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
 
 
-slice_audios(path_caregiver, dest_caregiver)
-slice_audios(path_patient, dest_patient)
-noise_directory = '..//noise_home//'
-
-add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
-add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
-
-# Step 2: get the vecs of shape (X, 48, 272)
-X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
-X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
-
-X = np.vstack((X_caregiver, X_patient))
-y = to_categorical( np.vstack((y_caregiver, y_patient)) )
-
-#nsamples, nx, ny = X.shape
-#X = X.reshape((nsamples,nx*ny))
-
-X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
 def train_cnn():
 
@@ -323,6 +304,25 @@ def get_emp_mahalanobis(X, y):
 
 def start_train():
     # STEP 1: slice into 5-second wavs
+    slice_audios(path_caregiver, dest_caregiver)
+    slice_audios(path_patient, dest_patient)
+    noise_directory = '..//noise_home//'
+
+    add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
+    add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
+
+    # Step 2: get the vecs of shape (X, 48, 272)
+    X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
+    X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
+
+    X = np.vstack((X_caregiver, X_patient))
+    y = to_categorical( np.vstack((y_caregiver, y_patient)) )
+
+    #nsamples, nx, ny = X.shape
+    #X = X.reshape((nsamples,nx*ny))
+
+    X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
     emp_miu_caregiver = get_emp_miu(X_caregiver, 0)
     emp_miu_patient = get_emp_miu(X_patient, 1)

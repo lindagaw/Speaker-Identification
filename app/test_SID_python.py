@@ -28,3 +28,5 @@ def mil_squared_error(y_true, y_pred):
 adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
 
 model = tf.keras.models.load_model('..//models//cnn.hdf5', custom_objects={'mil_squared_error': mil_squared_error, 'adam': adam})
+
+# perform speaker ID on incoming samples
