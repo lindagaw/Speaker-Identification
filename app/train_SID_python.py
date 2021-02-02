@@ -27,6 +27,21 @@ dest_caregiver = '..//app//2-Training//singles//1-caregiver//'
 path_patient = '..//speaker_id_module//SpeakerID//singles//2-patient//'
 dest_patient = '..//app//2-Training//singles//2-patient//'
 
+try:
+    shutil.rmtree(dest_caregiver)
+except:
+    print('caregiver folder clean.')
+
+try:
+    shutil.rmtree(dest_patient)
+except:
+    print('patient folder clean.')
+
+os.makedirs(dest_caregiver)
+os.makedirs(dest_patient)
+
+
+
 def slice_audios(path, dest):
     try:
         os.makedirs(dest)
@@ -113,6 +128,13 @@ def add_noise_per_file(emotionfile, bgnoise, newSoundFile):
     newSound=newSound[0:5000]
     newSound.export(newSoundFile, format='wav')  ### save the new generated file in a folder
 
+slice_audios(path_caregiver, dest_caregiver)
+slice_audios(path_patient, dest_patient)
+noise_directory = '..//noise_home//'
+
+add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
+add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
+
 def extract_features_for_all_wavs(dest, label):
     result = np.expand_dims(np.zeros((48, 272)), axis=0)
 
@@ -160,7 +182,14 @@ def mil_squared_error(y_true, y_pred):
 
 adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
 
+X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
+X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
 
+X = np.vstack((X_caregiver, X_patient))
+y = to_categorical( np.vstack((y_caregiver, y_patient)) )
+
+X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
 def train_cnn():
 
@@ -271,8 +300,9 @@ def get_emp_mahalanobis(X, y):
     except:
         mahalanobis_dists = [(x-emp_miu) * inv_emp_sigma * (x-emp_miu) for x in intermediate_layer_model.predict(X)]
 
-    mahalanobis_mean = np.mean(mahalanobis_dists)
-    mahalanobis_std = np.std(mahalanobis_dists)
+    mahalanobis_dists_norm = [np.linalg.norm(m_dist) for m_dist in mahalanobis_dists]
+    mahalanobis_mean = np.mean(mahalanobis_dists_norm)
+    mahalanobis_std = np.std(mahalanobis_dists_norm)
 
     print('mahalanobis mean for class ' + str(y) + ' is ' + str(mahalanobis_mean))
     print('mahalanobis std for class ' + str(y) + ' is ' + str(mahalanobis_std))
@@ -281,48 +311,49 @@ def get_emp_mahalanobis(X, y):
     np.save('..//models//mahalanobis_std_class_' + str(y) + '.npy', mahalanobis_std)
 
     # np.linspace(0, 0.1, 200, endpoint=False)
-    for coeff in np.linspace(0, 0.01, 2000, endpoint=False):
+    valid_percentage = 0
+    for coeff in np.linspace(0, 0.1, 200, endpoint=False):
         upper = mahalanobis_mean + coeff*mahalanobis_std
         lower = mahalanobis_mean - coeff*mahalanobis_std
-        
+
         valid_xs = []
-        for x in intermediate_layer_model.predict(X):
-            norm = np.linalg.norm(x)
+
+        for x in mahalanobis_dists_norm:
             
-            if norm > lower and norm < upper:
+            if x > lower and x < upper:
                 valid_xs.append(x)
 
         if len(valid_xs)/len(X) > 0.4:
-            print(len(valid_xs)/len(X))
             mahalanobis_coeff = coeff
             np.save('..//models//mahalanobis_threshold_coefficient_class_' + str(y) + '.npy', coeff)
             print('the mahalanobis threshold coefficient for class ' + str(y) + ' is ' + str(coeff))
+            valid_percentage = len(valid_xs)/len(X)
             break
+
+    if valid_percentage < 0.4:
+        print('WARNING: the mahalanobis threshold coefficient for class ' + str(y) + ' is not established!' )
 
     return mahalanobis_mean, mahalanobis_std, mahalanobis_coeff
 
 
 def start_train():
     # STEP 1: slice into 5-second wavs
-    slice_audios(path_caregiver, dest_caregiver)
-    slice_audios(path_patient, dest_patient)
-    noise_directory = '..//noise_home//'
+    #slice_audios(path_caregiver, dest_caregiver)
+    #slice_audios(path_patient, dest_patient)
+    #noise_directory = '..//noise_home//'
 
-    add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
-    add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
+    #add_noise_and_deamplify_per_folder(dest_caregiver, '.wav', noise_directory)
+    #add_noise_and_deamplify_per_folder(dest_patient, '.wav', noise_directory)
 
     # Step 2: get the vecs of shape (X, 48, 272)
-    X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
-    X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
+    #X_caregiver, y_caregiver = extract_features_for_all_wavs(dest_caregiver, 0)
+    #X_patient, y_patient = extract_features_for_all_wavs(dest_patient, 1)
 
-    X = np.vstack((X_caregiver, X_patient))
-    y = to_categorical( np.vstack((y_caregiver, y_patient)) )
+    #X = np.vstack((X_caregiver, X_patient))
+    #y = to_categorical( np.vstack((y_caregiver, y_patient)) )
 
     #nsamples, nx, ny = X.shape
     #X = X.reshape((nsamples,nx*ny))
-
-    X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
     emp_miu_caregiver = get_emp_miu(X_caregiver, 0)
     emp_miu_patient = get_emp_miu(X_patient, 1)
