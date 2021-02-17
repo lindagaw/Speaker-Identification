@@ -1,4 +1,4 @@
 cd %~dp0
 call activate base
-python train_main.py %~1
-timeout 30
+python train_SID_main.py %~1
+timeout 6000

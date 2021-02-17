@@ -3,7 +3,7 @@ from killable_thread import Killable_Thread
 import contextlib
 import sys
 
-from train_SID_python import *
+from train_SID_python import start_train
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -14,62 +14,54 @@ RECORD_SECONDS = 300
 class Train_SID_Tab(ttk.Frame):
 
     def progress_bar(self, yield_time):
-
-        singles = '2-Training//singles//'
-
-        single_dirs = []
-
+        # singles = 'Speaker-Identification\speaker_id_module\SpeakerID\singles'
+        singles = '..//speaker_id_module//speakerID//singles'
+        #singles = '..//2-Training//singles'
         for folder in os.listdir(singles):
+            if len(singles+'//'+folder) == 0:
+                shutil.rmtree(singles+'//'+dir)
 
-            registered_speaker_folder = singles + folder
-            single_dirs.append(registered_speaker_folder)
-            try:
-                shutil.rmtree(registered_speaker_folder)
-            except:
-                pass
-            os.makedirs(registered_speaker_folder)
+        original_num = len(os.listdir(singles))
 
-
-        try:
-            shutil.rmtree('..//models//')
-        except:
-            pass
-        os.makedirs('..//models//')
-
-        original_num = 180 + 180 + 11
-
+        start_waxing = False
+        start_waning = False
         self.progress['value'] = 0
-        
-        previous_num = 0
+        '''    
         while True:
-            
-            #
-            current_num = len(os.listdir(single_dirs[0])) + len(os.listdir(single_dirs[1])) + len(os.listdir('..//models//'))
+            current_num = len(os.listdir(singles))
 
-            if current_num < original_num:
+            if current_num > original_num:
+                start_waxing = True
+                original_num = current_num
                 time.sleep(yield_time)
-                self.progress['value'] = current_num - previous_num
+                self.progress['value'] = self.progress['value'] + 3
 
-                previous_num = current_num
+            elif current_num < original_num:
+                start_waning = True
+                original_num = current_num
+                time.sleep(yield_time)
+                self.progress['value'] = self.progress['value'] + 3
 
             else:
-                self.progress['value'] = 1000
-
-                break
-    
+                if not (start_waning and start_waxing):
+                    continue
+                else:
+                    self.progress['value'] = self.max_files*5
+                    src = '..//speaker_id_module//speakerID//models_1024.mat'
+                    dest = '..//2-Training//models_1024.mat'
+                    shutil.copyfile(src, dest)
+                    break
+        '''
 
     def check(self, yield_time):
-        model_dirs = '..//models//'
-
         count = 0
         try:
-            shutil.rmtree(model_dirs)
+            os.remove("..//2-Training//models_1024.mat")
         except Exception as e:
             print(e)
 
         while True:
-
-            if not len(os.isdir(model_dirs)) == 11:
+            if not os.path.exists("..//2-Training//models_1024.mat"):
                 count += 1
                 self.training_label['text'] = 'Training' + '.' * (count % 4)
                 time.sleep(yield_time)
@@ -78,12 +70,13 @@ class Train_SID_Tab(ttk.Frame):
 
     def train(self):
         print('Starting the training module initialization...')
-
+        eng = matlab.engine.start_matlab()
         print('training module initialization finished...')
         if self.training_button['text'] == 'Start Training' or self.training_button['text'] == 'Restart Training':
 
-
-            start_SID_train()
+            with open('SID_training_log.txt','a') as f:
+                with contextlib.redirect_stdout(f):
+                    start_train()
             self.training_button['text'] = 'Restart Training'
         else:
             pass

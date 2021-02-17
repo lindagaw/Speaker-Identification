@@ -5,6 +5,28 @@ from train_tab import *
 from test_tab import *
 from confirm_tab import *
 
+
+import tensorflow as tf
+
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.constraints import maxnorm
+from keras.layers import Convolution1D, Dense, MaxPooling1D, Flatten, Add, Dropout, Input, Activation
+from keras.layers import TimeDistributed, Bidirectional, LSTM, LeakyReLU
+from keras.models import Sequential
+from keras import optimizers, regularizers
+from keras.utils import np_utils, to_categorical
+from keras.models import Model, load_model, Sequential
+from keras.regularizers import l2
+
+import keras
+
+from IPython.display import clear_output
+from tensorflow.python.client import device_lib
+from tensorflow.python.keras import backend
+import tensorflow as tf
+
+print('initialized.')
+
 training_caregiver_wav = '..//2-Training//singles//1-caregiver//'
 training_patient_wav = '..//2-Training//singles//2-patient//'
 testing_caregiver_wav = '..//3-Testing//singles//1-caregiver//'
