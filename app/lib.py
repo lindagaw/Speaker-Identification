@@ -24,7 +24,7 @@ import pyaudio
 from pydub import AudioSegment
 from pydub.playback import play
 
-import matlab.engine
+#import matlab.engine
 
 import logging
 import threading

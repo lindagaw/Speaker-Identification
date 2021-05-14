@@ -1,4 +1,4 @@
 cd %~dp0
-call activate base
+call activate pcr_env
 python train_SID_main.py %~1
-timeout 6000
+timeout 50

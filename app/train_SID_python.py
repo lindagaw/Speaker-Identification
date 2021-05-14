@@ -16,7 +16,7 @@ from extract_feat import extract_feats_single_wav
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix
 
-from mlxtend.feature_selection import SequentialFeatureSelector as sfs
+#from mlxtend.feature_selection import SequentialFeatureSelector as sfs
 
 path_caregiver = '..//speaker_id_module//SpeakerID//singles//1-caregiver//'
 dest_caregiver = '..//app//2-Training//singles//1-caregiver//'
@@ -91,7 +91,7 @@ def add_noise_and_deamplify_per_folder(directory, extension, noise_directory):
         if file.endswith(extension) and not file[1] == '_':
             for i in range(0, 2):
                 soundFile = directory + file
-                amount = change_amplitude_range(soundFile, soundFile, 6)
+                amount = change_amplitude_range(soundFile, soundFile, 1.5)
                 noise = random.choice(os.listdir(noise_directory))
                 random_noise = noise_directory + noise
                 newSoundFile = directory + 'deamp_' + str(amount) + '_noise_' + noise[:len(noise)-5] + '_' + file
@@ -155,24 +155,31 @@ def load_mahalanobis_coeff(y):
     path = '..//models//mahalanobis_threshold_class_' + str(y) + '.npy'
     return np.load(path)
 
+import tensorflow as tf
+import tensorflow.keras as keras
 
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.constraints import maxnorm
-from keras.layers import Convolution1D, Dense, MaxPooling1D, Flatten, Add, Dropout, Input, Activation
-from keras.utils import np_utils, to_categorical
-from keras.models import Model, load_model, Sequential
-from keras.regularizers import l2
+from tensorflow.keras.layers import Convolution1D, Dense, MaxPooling1D, Flatten, Add, Dropout
+from tensorflow.keras.utils import to_categorical
 
-import keras
 from tensorflow.python.client import device_lib
 from tensorflow.python.keras import backend
-import tensorflow as tf
 
 
-def train_cnn():
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+tf.keras.backend.clear_session()
+tf.compat.v1.reset_default_graph()
+
+def mil_squared_error(y_true, y_pred):
+    return tf.keras.backend.square(tf.keras.backend.max(y_pred) - tf.keras.backend.max(y_true))
+
+adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
+
+
+
+def train_cnn(X_train, y_train, X_test, y_test, X_val, y_val):
 
     model = keras.Sequential()
-    model.add(Convolution1D(filters= 1500, kernel_size=2, strides=2, activation='relu', input_shape=X_train[0].shape))
+    model.add(Convolution1D(filters= 1500, kernel_size=2, strides=2, activation='relu', input_shape=(48, 272) ))
     model.add(MaxPooling1D(2))
     model.add(Dropout(0.2))
 
@@ -218,7 +225,7 @@ def train_cnn():
 
     return model
 
-def get_emp_miu(X, y):
+def get_emp_miu(X, y, intermediate_layer_model):
     outputs = intermediate_layer_model.predict(X)
     norms = [np.linalg.norm(output) for output in outputs]
     emp_miu = np.mean(norms)
@@ -229,7 +236,7 @@ def get_emp_miu(X, y):
     return emp_miu
 
 
-def get_emp_sigma(emp_miu_0, emp_miu_1, X_0, X_1):
+def get_emp_sigma(emp_miu_0, emp_miu_1, X_0, X_1, intermediate_layer_model):
 
     X_0 = intermediate_layer_model.predict(X_0)
     X_1 = intermediate_layer_model.predict(X_1)
@@ -263,7 +270,7 @@ def get_emp_sigma(emp_miu_0, emp_miu_1, X_0, X_1):
 
 
 
-def get_emp_mahalanobis(X, y):
+def get_emp_mahalanobis(X, y, intermediate_layer_model, emp_sigma):
     mahalanobis_coeff = 0
 
     emp_miu = np.load('..//models//emp_miu_class_' + str(y) + '.npy')
@@ -333,15 +340,6 @@ def detect_ood(x, predicted_y):
 
 def start_SID_train():
 
-    print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
-    tf.keras.backend.clear_session()
-    tf.compat.v1.reset_default_graph()
-
-    def mil_squared_error(y_true, y_pred):
-        return tf.keras.backend.square(tf.keras.backend.max(y_pred) - tf.keras.backend.max(y_true))
-
-    adam = tf.keras.optimizers.Adam(learning_rate=1e-5)
-
 
     slice_audios(path_caregiver, dest_caregiver)
     slice_audios(path_patient, dest_patient)
@@ -359,23 +357,23 @@ def start_SID_train():
     X, X_test, y, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=42)
 
-    model = train_cnn()
+    model = train_cnn(X_train, y_train, X_test, y_test, X_val, y_val)
 
     intermediate_layer_model = keras.Model(inputs=model.input,
                                         outputs=model.get_layer(index=len(model.layers)-2).output)
     intermediate_layer_model.summary()
+    intermediate_layer_model.save('..//models//intermediate_layer_model_cnn.hdf5')
 
 
 
-    emp_miu_caregiver = get_emp_miu(X_caregiver, 0)
-    emp_miu_patient = get_emp_miu(X_patient, 1)
+    emp_miu_caregiver = get_emp_miu(X_caregiver, 0, intermediate_layer_model)
+    emp_miu_patient = get_emp_miu(X_patient, 1, intermediate_layer_model)
 
 
-    emp_sigma = get_emp_sigma(emp_miu_caregiver, emp_miu_patient, X_caregiver, X_patient)
+    emp_sigma = get_emp_sigma(emp_miu_caregiver, emp_miu_patient, X_caregiver, X_patient, intermediate_layer_model)
 
 
-    m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0)
-    m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1)
+    m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0, intermediate_layer_model, emp_sigma)
+    m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1, intermediate_layer_model, emp_sigma)
 
-
-
+start_SID_train()
