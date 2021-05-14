@@ -376,4 +376,5 @@ def start_SID_train():
     m_mean_0, m_std_0, m_coeff_0 = get_emp_mahalanobis(X_caregiver, 0, intermediate_layer_model, emp_sigma)
     m_mean_1, m_std_1, m_coeff_1 = get_emp_mahalanobis(X_patient, 1, intermediate_layer_model, emp_sigma)
 
-#start_SID_train()
+if __name__ == "__main__":
+    start_SID_train()
