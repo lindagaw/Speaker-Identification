@@ -11,7 +11,6 @@ class Test_SID_Tab(ttk.Frame):
 
     def sid(self):
         location = get_location(self.role)
-        eng = matlab.engine.start_matlab()
         if not len(os.listdir(location)) == 0:
             try:
                 fname = location + self.role + '.wav'
@@ -89,8 +88,7 @@ class Test_SID_Tab(ttk.Frame):
         self.active_threads = []
         self.is_paused = False
         self.remaining = RECORD_SECONDS
-        self.eng = matlab.engine.start_matlab()
-
+        
         # the overview label
         self.overview_label = ttk.Label(self, text="Here we test the speaker identification model.", font=("Times New Roman", 11))
         self.overview_label.pack()

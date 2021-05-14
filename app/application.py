@@ -22,7 +22,7 @@ import pyaudio
 from pydub import AudioSegment
 from pydub.playback import play
 
-import matlab.engine
+#import matlab.engine
 
 import logging
 import threading
@@ -144,7 +144,7 @@ def raise_exception(my_thread):
 def test_sid_button(tab, role):
 
     location = get_location(role)
-    eng = matlab.engine.start_matlab()
+#eng = matlab.engine.start_matlab()
 
     def countdown(count):
         # change text in label       

@@ -5,7 +5,7 @@ from train_tab import *
 from test_tab import *
 from confirm_tab import *
 
-
+'''
 import tensorflow as tf
 
 from keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -23,8 +23,7 @@ import keras
 from IPython.display import clear_output
 from tensorflow.python.client import device_lib
 from tensorflow.python.keras import backend
-import tensorflow as tf
-
+'''
 print('initialized.')
 
 training_caregiver_wav = '..//2-Training//singles//1-caregiver//'
