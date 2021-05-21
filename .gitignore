@@ -5,3 +5,5 @@
 !speaker_id_module/SpeakerID/singles/1-caregiver/*.wav
 !speaker_id_module/SpeakerID/singles/2-patient/*.wav
 !noise_home/*.wav
+!2-Training/singles/singles/1-caregiver/*.wav
+!2-Training/singles/singles/2-patient/*.wav
