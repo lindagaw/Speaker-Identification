@@ -1,5 +1,4 @@
 .DS_Store
-*.wav
 *.jar
 
 !speaker_id_module/SpeakerID/singles/1-caregiver/*.wav
