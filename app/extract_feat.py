@@ -1,3 +1,8 @@
+try:
+    from sklearn.datasets import make_blobs
+except:
+    pass
+
 import random
 import time
 import datetime
@@ -265,7 +270,7 @@ def extract_feats_single_wav(audiofile):
         else:
             SegAllFeat = np.vstack((SegAllFeat, featureSet))
         start_seg = start_seg + overlapping
-    
+
     SegAllFeat = float_compatible(SegAllFeat)
     SegAllFeat = normalize(SegAllFeat, norm='l2', axis=0)
 
@@ -274,7 +279,7 @@ def extract_feats_single_wav(audiofile):
         flag_start_all = 1
     else:
         All = np.vstack((All, SegAllFeat))
-    
+
     #audio_npy = (audiofile[:len(audiofile)-4] + '.npy').split('//')[len((audiofile[:len(audiofile)-4] + '.npy').split('//'))-1]
     All = float_compatible(All)
     '''
@@ -283,4 +288,3 @@ def extract_feats_single_wav(audiofile):
         print('saved')
     '''
     return All
-

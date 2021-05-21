@@ -5,6 +5,11 @@ from train_tab import *
 from test_tab import *
 from confirm_tab import *
 
+try:
+    from sklearn.datasets import make_blobs
+except:
+    pass
+
 '''
 import tensorflow as tf
 
@@ -35,19 +40,19 @@ wav_dirs = [training_caregiver_wav, training_patient_wav, testing_caregiver_wav,
 
 class Root(tk.Tk):
     """Container for all frames within the application"""
-    
+
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        
+
         #initialize menu
         self.config(menu=MenuBar(self)) # the menu bar on top
-        
+
         self.appFrame = Application(self) # the application bar, which is now left for blank
         self.appFrame.pack(side='top', fill='both', expand='True')
-        
+
         self.status = StatusBar(self) # the status bar at the bottom
         self.status.pack(side='bottom', fill='x')
-        
+
 class MenuBar(tk.Menu):
 
     def __init__(self, parent):
@@ -65,7 +70,7 @@ class MenuBar(tk.Menu):
 
     def quit(self):
         sys.exit(0)
-    
+
     def callback(self):
         print("called the callback!")
 
@@ -84,7 +89,7 @@ class StatusBar(ttk.Frame):
         self.label.config(text="")
         self.label.update_idletasks()
 
-            
+
 class Application(ttk.Notebook):
 
     def __init__(self, root):
@@ -128,12 +133,12 @@ def reset_folders():
             os.mkdir(wav_dir)
         except:
             shutil.rmtree(wav_dir)
-            os.mkdir(wav_dir) 
+            os.mkdir(wav_dir)
 
 if __name__ == "__main__":
     root = Root()
-    #Set App icon   
+    #Set App icon
     root.iconbitmap(r'..//icon.ico')
     root.title("Speaker Identification")
     root.geometry("900x500+200+200")
-    root.mainloop()  
+    root.mainloop()
