@@ -33,7 +33,7 @@ class Voice_Collection_Tab(ttk.Frame):
 
     def countdown(self, count):
         # change text in label
-        
+
         while count >= 0:
             if self.is_paused:
                 time.sleep(1)
@@ -42,7 +42,7 @@ class Voice_Collection_Tab(ttk.Frame):
                 self.elapsed_time_label['text'] = 'Remaining time: ' + str(display)
                 time.sleep(1)
                 count -= 1
-        
+
 
         self.elapsed_time_label['text'] = 'Recording Ended'
 
@@ -73,10 +73,10 @@ class Voice_Collection_Tab(ttk.Frame):
             self.active_threads.append(x.getName())
             self.active_threads.append(y.getName())
 
-            
+
         else:
             print("nothing")
-        
+
     def __init__(self, parent, role):
         tk.Frame.__init__(self, parent)
 
@@ -84,8 +84,8 @@ class Voice_Collection_Tab(ttk.Frame):
         self.remaining = RECORD_SECONDS
 
         self.is_paused = False
-        
-        
+
+
         self.parent = parent
         self.role = role
         self.overview_label = ttk.Label(self, text="Here we collect the " + str(role) + "'s voice.", font=("Times New Roman", 11))
@@ -134,8 +134,7 @@ class Voice_Collection_Tab(ttk.Frame):
         try:
             os.makedirs(self.location)
         except:
-            shutil.rmtree(self.location)
-            os.makedirs(self.location)
+            pass
 
         # voice record button
         self.voice_record_button = tk.Button(self, text='Start Recording', width=25, command=self.voice_record)
@@ -187,7 +186,7 @@ class Voice_Collection_Tab(ttk.Frame):
             wf.setframerate(RATE)
             wf.writeframes(b''.join(frames))
             wf.close()
-            
+
             print("Generated audio file " + WAVE_OUTPUT_FILENAME)
             temp_location = get_temp_location(role)
 
@@ -207,7 +206,7 @@ class Voice_Collection_Tab(ttk.Frame):
             except:
                 pass
             '''
-            
+
             shutil.copyfile(location + role + '.wav', temp_location + role + '.wav')
             print('copied to location ' + temp_location + role + '.wav')
             return location + role + '.wav'
@@ -217,14 +216,14 @@ def replace_special_chars(z, special_chars, new_char):
     removeSpecialChars = z.translate({ord(c): new_char for c in special_chars})
     return removeSpecialChars
 
-def convert(seconds): 
-    seconds = seconds % (24 * 3600) 
+def convert(seconds):
+    seconds = seconds % (24 * 3600)
     hour = seconds // 3600
     seconds %= 3600
     minutes = seconds // 60
     seconds %= 60
-      
-    return "%d:%02d:%02d" % (hour, minutes, seconds) 
+
+    return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 def get_location(role):
     if role == 'caregiver':
